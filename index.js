@@ -1,18 +1,28 @@
 //@ts-check
+import { BorderRadius, Style } from "./dandelion/dandelion.css.js";
 import {
+  Button,
   Container,
   Dandelion,
+  DialogBody,
   DropDownMenu,
   DropDownOption,
+  HorizontalLine,
+  InputCheckBox,
+  InputDatePicker,
   InputEmail,
   InputText,
+  InputTime,
   Label,
   Node,
   Percent,
   Px,
   TextArea,
+  WindowNode,
 } from "./dandelion/dandelion.js";
 import { UseDefaultTheme } from "./dandelion/default.css.js";
+import { createNotifyDialog } from "./module/dialog.js";
+import { request } from "./module/google.js";
 
 UseDefaultTheme();
 
@@ -36,6 +46,7 @@ Dandelion((body) => {
               new Node("RequesterName")
                 ._Add(
                   new Label("Lb", "p")
+                    ._Bold()
                     ._HorLeft()
                     ._Text("ชื่อผู้ที่ร้องขอ"),
                   new InputText("Text")
@@ -44,6 +55,7 @@ Dandelion((body) => {
               new Node("RequesterEmail")
                 ._Add(
                   new Label("Lb", "p")
+                    ._Bold()
                     ._HorLeft()
                     ._Text("อีเมลของผู้ที่ร้องขอ"),
                   new InputEmail("Text")
@@ -54,6 +66,7 @@ Dandelion((body) => {
               new Node("RequesterDepartment")
                 ._Add(
                   new Label("Lb", "p")
+                    ._Bold()
                     ._HorLeft()
                     ._Text("แผนกของผู้ที่ร้องขอ"),
                   new DropDownMenu("Text")
@@ -158,12 +171,151 @@ Dandelion((body) => {
                 ._Add(
                   new Label("Lb", "p")
                     ._HorLeft()
-                    ._Html(HTMLElement, (html) => html.innerHTML = "<b>เหตุผลที่ขอใช้รถ</b>"),
+                    ._Bold()
+                    ._Text("เหตุผลที่ขอใช้รถ"),
                   new TextArea("Text")
                     ._LockWidth(Percent(100))
-                    ._MinHeight(Px(200)),
+                    ._MinHeight(Px(200))
+                    ._PlaceholderText("กรุณาระบุเหตุผลที่ต้องการใช้รถ"),
+                ),
+              new Node("IsRequestUrgent")
+                ._FlexContainer()
+                ._Add(
+                  new InputCheckBox("CheckBox"),
+                  new Label()._Text("มีความเร่งด่วน"),
+                ),
+              new Node("IsRequestRush")
+                ._FlexContainer()
+                ._Add(
+                  new InputCheckBox("CheckBox"),
+                  new Label()._Text("วิ่งทำเวลา"),
+                ),
+              new HorizontalLine(),
+              new Node("RequesterParticipants")
+                ._Add(
+                  new Label("Lb", "p")
+                    ._Bold()
+                    ._HorLeft()
+                    ._Text("ผู้ที่ร่วมโดยสารไปด้วย"),
+                  new TextArea("Text")
+                    ._LockWidth(Percent(100))
+                    ._MinHeight(Px(200))
+                    ._PlaceholderText("กรอกชื่อผู้ที่ร่วมโดยสารไปด้วย หากไม่มีให้เว้นว่าง"),
+                ),
+              new Node("RequestFrom")
+                ._Add(
+                  new Label("Lb", "p")
+                    ._HorLeft()
+                    ._Bold()
+                    ._Text("จากเวลา"),
+                  new Node("DateTime")
+                    ._FlexContainer()
+                    ._Add(
+                      new Node("Date")
+                        ._InternalMargin(Px(0), Px(10), Px(0), Px(0))
+                        ._ExternalMargin(Px(0))
+                        ._Width(Percent(50))
+                        ._HorLeft()
+                        ._Add(
+                          new InputDatePicker("Text"),
+                        ),
+                      new Node("Time")
+                        ._InternalMargin(Px(0), Px(0), Px(0), Px(10))
+                        ._ExternalMargin(Px(0))
+                        ._Width(Percent(50))
+                        ._HorRight()
+                        ._Add(
+                          new InputTime("Text"),
+                        ),
+                    ),
+                ),
+              new Node("RequestTo")
+                ._Add(
+                  new Label("Lb", "p")
+                    ._HorLeft()
+                    ._Bold()
+                    ._Text("ถึงเวลา"),
+                  new Node("DateTime")
+                    ._FlexContainer()
+                    ._Add(
+                      new Node("Date")
+                        ._InternalMargin(Px(0), Px(10), Px(0), Px(0))
+                        ._ExternalMargin(Px(0))
+                        ._Width(Percent(50))
+                        ._HorLeft()
+                        ._Add(
+                          new InputDatePicker("Text"),
+                        ),
+                      new Node("Time")
+                        ._InternalMargin(Px(0), Px(0), Px(0), Px(10))
+                        ._ExternalMargin(Px(0))
+                        ._Width(Percent(50))
+                        ._HorRight()
+                        ._Add(
+                          new InputTime("Text"),
+                        ),
+                    ),
+                ),
+              new Node("Submit")
+                ._Add(
+                  new Button("Button")
+                    ._Text("ส่งคำร้องขอ")
+                    ._OnClick(async (node) => {
+                      const d = createNotifyDialog("กำลังส่งข้อมูล โปรดรอสักครู่...");
+                      const res = await request("request=request", {
+                        requesterName: requesterName.value,
+                        requesterEmail: requesterEmail.value,
+                        requesterDepartment: requesterDepartment.value,
+                        requesterReasons: requesterReasons.value,
+                        isRequestUrgent: isRequestUrgent.isChecked,
+                        isRequestRush: isRequestRush.isChecked,
+                        requesterParticipants: requesterParticipants.value,
+                        requestFromDate: requestFromDate.value,
+                        requestFromTime: requestFromTime.value,
+                        requestToDate: requestToDate.value,
+                        requestToTime: requestToTime.value,
+                      });
+                      if (d.parent) {
+                        d.detach();
+                      }
+                      createNotifyDialog(res.success ? "ส่งคำขอเรียบร้อยแล้ว" : "ล้มเหลว: " + res.error);
+                    }),
                 ),
             ),
         ),
     );
+
+  const main = body.getNode("App/Main", Node);
+  const requesterName = main.getNode("RequesterName/Text", InputText);
+  const requesterEmail = main.getNode("RequesterEmail/Text", InputEmail);
+  const requesterDepartment = main.getNode(
+    "RequesterDepartment/Text",
+    DropDownMenu,
+  );
+  const requesterReasons = main.getNode("RequesterReasons/Text", TextArea);
+  const isRequestUrgent = main.getNode(
+    "IsRequestUrgent/CheckBox",
+    InputCheckBox,
+  );
+  const isRequestRush = main.getNode("IsRequestRush/CheckBox", InputCheckBox);
+  const requesterParticipants = main.getNode(
+    "RequesterParticipants/Text",
+    TextArea,
+  );
+  const requestFromDate = main.getNode(
+    "RequestFrom/DateTime/Date/Text",
+    InputDatePicker,
+  );
+  const requestFromTime = main.getNode(
+    "RequestFrom/DateTime/Time/Text",
+    InputTime,
+  );
+  const requestToDate = main.getNode(
+    "RequestTo/DateTime/Date/Text",
+    InputDatePicker,
+  );
+  const requestToTime = main.getNode(
+    "RequestTo/DateTime/Time/Text",
+    InputTime,
+  );
 });
