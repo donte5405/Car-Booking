@@ -274,7 +274,7 @@ Dandelion((body) => {
                         createNotifyDialog("กรุณาระบุข้อมูลที่จำเป็นให้ครบถ้วน");
                         return;
                       }
-                      const d = createNotifyDialog("กำลังส่งข้อมูล โปรดรอสักครู่...");
+                      const d = createNotifyDialog("⏳ กำลังส่งข้อมูล โปรดรอสักครู่...");
                       const res = await request("request=request", {
                         requesterName: requesterName.value,
                         requesterEmail: requesterEmail.value,
@@ -293,8 +293,8 @@ Dandelion((body) => {
                       }
                       createNotifyDialog(
                         res.success
-                          ? "ส่งคำขอเรียบร้อยแล้ว"
-                          : "ล้มเหลว: " + res.error,
+                          ? "✅ ส่งคำขอเรียบร้อยแล้ว"
+                          : "❌ ล้มเหลว: " + res.error,
                       );
                     }),
                 ),
