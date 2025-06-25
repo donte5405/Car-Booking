@@ -1,18 +1,27 @@
 //@ts-check
 
-import { Body, BodyNode, Button, Container, DialogBody, Label, Node, Percent, Px } from "../dandelion/dandelion.js";
-
+import {
+  Body,
+  BodyNode,
+  Button,
+  Container,
+  DialogBody,
+  Label,
+  Node,
+  Percent,
+  Px,
+} from "../dandelion/dandelion.js";
 
 /**
  * Spawn a dialog.
- * @param {string} text 
+ * @param {string} text
  */
 export function createNotifyDialog(text) {
-    const lb = new Label()
+  const lb = new Label()
     ._Text(text)
     ._VerCenter()
     ._Stretch();
-    const d = new DialogBody()
+  const d = new DialogBody()
     ._Dim()
     ._Add(
       new Container()
@@ -38,6 +47,6 @@ export function createNotifyDialog(text) {
           ),
         ),
     );
-    Body._Add(d);
-    return d;
+  Body._Add(d);
+  return d;
 }
