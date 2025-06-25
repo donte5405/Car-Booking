@@ -302,19 +302,34 @@ Dandelion((body) => {
         ),
     );
 
-  const main = body.getNode("App/Main", Node);
-  const requesterName = main.getNode("RequesterName/Text", InputText);
-  const requesterEmail = main.getNode("RequesterEmail/Text", InputEmail);
+  const main = body.getNode(
+    "App/Main",
+    Node,
+  );
+  const requesterName = main.getNode(
+    "RequesterName/Text",
+    InputText,
+  );
+  const requesterEmail = main.getNode(
+    "RequesterEmail/Text",
+    InputEmail,
+  );
   const requesterDepartment = main.getNode(
     "RequesterDepartment/Text",
     DropDownMenu,
   );
-  const requesterReasons = main.getNode("RequesterReasons/Text", TextArea);
+  const requesterReasons = main.getNode(
+    "RequesterReasons/Text",
+    TextArea,
+  );
   const isRequestUrgent = main.getNode(
     "IsRequestUrgent/CheckBox",
     InputCheckBox,
   );
-  const isRequestRush = main.getNode("IsRequestRush/CheckBox", InputCheckBox);
+  const isRequestRush = main.getNode(
+    "IsRequestRush/CheckBox",
+    InputCheckBox,
+  );
   const requesterParticipants = main.getNode(
     "RequesterParticipants/Text",
     TextArea,
