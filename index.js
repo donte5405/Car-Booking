@@ -261,6 +261,19 @@ Dandelion((body) => {
                   new Button("Button")
                     ._Text("ส่งคำร้องขอ")
                     ._OnClick(async (node) => {
+                      if (
+                        !requesterName.value ||
+                        !requesterEmail.value ||
+                        !requesterDepartment.value ||
+                        !requesterReasons.value ||
+                        !requestFromDate.value ||
+                        !requestFromTime.value ||
+                        !requestToDate.value ||
+                        !requestToTime.value
+                      ) {
+                        createNotifyDialog("กรุณาระบุข้อมูลที่จำเป็นให้ครบถ้วน");
+                        return;
+                      }
                       const d = createNotifyDialog("กำลังส่งข้อมูล โปรดรอสักครู่...");
                       const res = await request("request=request", {
                         requesterName: requesterName.value,
@@ -278,7 +291,11 @@ Dandelion((body) => {
                       if (d.parent) {
                         d.detach();
                       }
-                      createNotifyDialog(res.success ? "ส่งคำขอเรียบร้อยแล้ว" : "ล้มเหลว: " + res.error);
+                      createNotifyDialog(
+                        res.success
+                          ? "ส่งคำขอเรียบร้อยแล้ว"
+                          : "ล้มเหลว: " + res.error,
+                      );
                     }),
                 ),
             ),
