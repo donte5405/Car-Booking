@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script type="module">
+    import {
+      Button,
+      Container,
+      Dandelion,
+      DialogBody,
+      Label,
+      Percent,
+      Px,
+    } from "https://cdn.jsdelivr.net/gh/donte5405/dandelion/dandelion.min.js";
+    import { UseDefaultTheme } from "https://cdn.jsdelivr.net/gh/donte5405/dandelion/default.css.js";
+
+    const requestId = "";
+    const allocateToken = "";
+
+    UseDefaultTheme();
+
+    Dandelion((body) => {
+      body
+        .Title("ระบบขอใช้รถออนไลน์")
+        .Add(
+          new DialogBody("App")
+            .FlexContainer()
+            .HorCenter()
+            .Add(
+              new Container("Main")
+                .OnSmallScreen((node) => node.Width(Percent(80)))
+                .OnBigScreen((node) => node.Width(Px(640)))
+                .Width(Px(240))
+                .HorCenter()
+                .Panel()
+                .Add(
+                  new Label("LbTitle", "h1")
+                    .Text("ระบบขอใช้รถออนไลน์"),
+                  new Button()
+                    .Text("เริ่มจัดสรรการใช้รถ")
+                    .OnClick(() => {
+                      window.top.location =
+                        "https://pmdh-car.pages.dev/allocate.html?requestid=" +
+                        requestId + "&token=" + allocateToken;
+                    }),
+                ),
+            ),
+        );
+    });
+  </script>
+</body>
+
+</html>

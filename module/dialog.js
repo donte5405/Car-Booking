@@ -18,35 +18,35 @@ import {
  */
 export function createNotifyDialog(text) {
   const lb = new Label()
-    ._Text(text)
-    ._VerCenter()
-    ._Stretch();
+    .Text(text)
+    .VerCenter()
+    .Stretch();
   const d = new DialogBody()
-    ._Dim()
-    ._Add(
+    .Dim()
+    .Add(
       new Container()
-        ._Panel()
-        ._MaxSize(Percent(100), Percent(100))
-        ._Size(Px(320), Px(280))
-        ._FlexContainer()
-        ._FlexDirection("column")
-        ._Add(
+        .Panel()
+        .MaxSize(Percent(100), Percent(100))
+        .Size(Px(320), Px(280))
+        .FlexContainer()
+        .FlexDirection("column")
+        .Add(
           new Node()
-            ._Size(Percent(100))
-            ._FlexContainer()
-            ._VerCenter()
-            ._Add(
+            .Size(Percent(100))
+            .FlexContainer()
+            .VerCenter()
+            .Add(
               lb,
             ),
-          new Node()._Add(
+          new Node().Add(
             new Button()
-              ._Width(Px(100))
-              ._Text("ปิด")
-              ._Stretch()
-              ._OnClick(() => d.detach()),
+              .Width(Px(100))
+              .Text("ปิด")
+              .Stretch()
+              .OnClick(() => d.detach()),
           ),
         ),
     );
-  Body._Add(d);
+  Body.Add(d);
   return d;
 }
