@@ -28,49 +28,49 @@ UseDefaultTheme();
 
 Dandelion((body) => {
   body
-    ._Title("ระบบขอใช้รถออนไลน์")
-    ._Add(
+    .Title("ระบบขอใช้รถออนไลน์")
+    .Add(
       new Node("App")
-        ._FlexContainer()
-        ._HorCenter()
-        ._Add(
+        .FlexContainer()
+        .HorCenter()
+        .Add(
           new Container("Main")
-            ._OnSmallScreen((node) => node._Width(Percent(100)))
-            ._OnBigScreen((node) => node._Width(Px(640)))
-            ._Width(Px(240))
-            ._HorCenter()
-            ._Panel()
-            ._Add(
+            .OnSmallScreen((node) => node.Width(Percent(100)))
+            .OnBigScreen((node) => node.Width(Px(640)))
+            .Width(Px(240))
+            .HorCenter()
+            .Panel()
+            .Add(
               new Label("LbTitle", "h1")
-                ._Text("ระบบขอใช้รถออนไลน์"),
+                .Text("ระบบขอใช้รถออนไลน์"),
               new Node("RequesterName")
-                ._Add(
+                .Add(
                   new Label("Lb", "p")
-                    ._Bold()
-                    ._HorLeft()
-                    ._Text("ชื่อผู้ที่ร้องขอ"),
+                    .Bold()
+                    .HorLeft()
+                    .Text("ชื่อผู้ที่ร้องขอ"),
                   new InputText("Text")
-                    ._PlaceholderText("กรอกชื่อ - นามสกุลของท่าน"),
+                    .PlaceholderText("กรอกชื่อ - นามสกุลของท่าน"),
                 ),
               new Node("RequesterEmail")
-                ._Add(
+                .Add(
                   new Label("Lb", "p")
-                    ._Bold()
-                    ._HorLeft()
-                    ._Text("อีเมลของผู้ที่ร้องขอ"),
+                    .Bold()
+                    .HorLeft()
+                    .Text("อีเมลของผู้ที่ร้องขอ"),
                   new InputEmail("Text")
-                    ._PlaceholderText(
+                    .PlaceholderText(
                       "กรอก E-mail ของท่าน เช่น johndoe@gmail.com",
                     ),
                 ),
               new Node("RequesterDepartment")
-                ._Add(
+                .Add(
                   new Label("Lb", "p")
-                    ._Bold()
-                    ._HorLeft()
-                    ._Text("แผนกของผู้ที่ร้องขอ"),
+                    .Bold()
+                    .HorLeft()
+                    .Text("แผนกของผู้ที่ร้องขอ"),
                   new DropDownMenu("Text")
-                    ._Options(
+                    .Options(
                       new DropDownOption("แผนกห้องฉุกเฉิน", "ERD - แผนกห้องฉุกเฉิน"),
                       new DropDownOption("แผนกรังสีวินิจฉัย", "RAD - แผนกรังสีวินิจฉัย"),
                       new DropDownOption(
@@ -168,99 +168,99 @@ Dandelion((body) => {
                     ),
                 ),
               new Node("RequesterReasons")
-                ._Add(
+                .Add(
                   new Label("Lb", "p")
-                    ._HorLeft()
-                    ._Bold()
-                    ._Text("เหตุผลที่ขอใช้รถ"),
+                    .HorLeft()
+                    .Bold()
+                    .Text("เหตุผลที่ขอใช้รถ"),
                   new TextArea("Text")
-                    ._LockWidth(Percent(100))
-                    ._MinHeight(Px(200))
-                    ._PlaceholderText("กรุณาระบุเหตุผลที่ต้องการใช้รถ"),
+                    .LockWidth(Percent(100))
+                    .MinHeight(Px(200))
+                    .PlaceholderText("กรุณาระบุเหตุผลที่ต้องการใช้รถ"),
                 ),
               new Node("IsRequestUrgent")
-                ._FlexContainer()
-                ._Add(
+                .FlexContainer()
+                .Add(
                   new InputCheckBox("CheckBox"),
-                  new Label()._Text("มีความเร่งด่วน"),
+                  new Label().Text("มีความเร่งด่วน"),
                 ),
               new Node("IsRequestRush")
-                ._FlexContainer()
-                ._Add(
+                .FlexContainer()
+                .Add(
                   new InputCheckBox("CheckBox"),
-                  new Label()._Text("วิ่งทำเวลา"),
+                  new Label().Text("วิ่งทำเวลา"),
                 ),
               new HorizontalLine(),
               new Node("RequesterParticipants")
-                ._Add(
+                .Add(
                   new Label("Lb", "p")
-                    ._Bold()
-                    ._HorLeft()
-                    ._Text("ผู้ที่ร่วมโดยสารไปด้วย"),
+                    .Bold()
+                    .HorLeft()
+                    .Text("ผู้ที่ร่วมโดยสารไปด้วย"),
                   new TextArea("Text")
-                    ._LockWidth(Percent(100))
-                    ._MinHeight(Px(200))
-                    ._PlaceholderText("กรอกชื่อผู้ที่ร่วมโดยสารไปด้วย หากไม่มีให้เว้นว่าง"),
+                    .LockWidth(Percent(100))
+                    .MinHeight(Px(200))
+                    .PlaceholderText("กรอกชื่อผู้ที่ร่วมโดยสารไปด้วย หากไม่มีให้เว้นว่าง"),
                 ),
               new Node("RequestFrom")
-                ._Add(
+                .Add(
                   new Label("Lb", "p")
-                    ._HorLeft()
-                    ._Bold()
-                    ._Text("จากเวลา"),
+                    .HorLeft()
+                    .Bold()
+                    .Text("จากเวลา"),
                   new Node("DateTime")
-                    ._FlexContainer()
-                    ._Add(
+                    .FlexContainer()
+                    .Add(
                       new Node("Date")
-                        ._InternalMargin(Px(0), Px(10), Px(0), Px(0))
-                        ._ExternalMargin(Px(0))
-                        ._Width(Percent(50))
-                        ._HorLeft()
-                        ._Add(
+                        .InternalMargin(Px(0), Px(10), Px(0), Px(0))
+                        .ExternalMargin(Px(0))
+                        .Width(Percent(50))
+                        .HorLeft()
+                        .Add(
                           new InputDatePicker("Text"),
                         ),
                       new Node("Time")
-                        ._InternalMargin(Px(0), Px(0), Px(0), Px(10))
-                        ._ExternalMargin(Px(0))
-                        ._Width(Percent(50))
-                        ._HorRight()
-                        ._Add(
+                        .InternalMargin(Px(0), Px(0), Px(0), Px(10))
+                        .ExternalMargin(Px(0))
+                        .Width(Percent(50))
+                        .HorRight()
+                        .Add(
                           new InputTime("Text"),
                         ),
                     ),
                 ),
               new Node("RequestTo")
-                ._Add(
+                .Add(
                   new Label("Lb", "p")
-                    ._HorLeft()
-                    ._Bold()
-                    ._Text("ถึงเวลา"),
+                    .HorLeft()
+                    .Bold()
+                    .Text("ถึงเวลา"),
                   new Node("DateTime")
-                    ._FlexContainer()
-                    ._Add(
+                    .FlexContainer()
+                    .Add(
                       new Node("Date")
-                        ._InternalMargin(Px(0), Px(10), Px(0), Px(0))
-                        ._ExternalMargin(Px(0))
-                        ._Width(Percent(50))
-                        ._HorLeft()
-                        ._Add(
+                        .InternalMargin(Px(0), Px(10), Px(0), Px(0))
+                        .ExternalMargin(Px(0))
+                        .Width(Percent(50))
+                        .HorLeft()
+                        .Add(
                           new InputDatePicker("Text"),
                         ),
                       new Node("Time")
-                        ._InternalMargin(Px(0), Px(0), Px(0), Px(10))
-                        ._ExternalMargin(Px(0))
-                        ._Width(Percent(50))
-                        ._HorRight()
-                        ._Add(
+                        .InternalMargin(Px(0), Px(0), Px(0), Px(10))
+                        .ExternalMargin(Px(0))
+                        .Width(Percent(50))
+                        .HorRight()
+                        .Add(
                           new InputTime("Text"),
                         ),
                     ),
                 ),
               new Node("Submit")
-                ._Add(
+                .Add(
                   new Button("Button")
-                    ._Text("ส่งคำร้องขอ")
-                    ._OnClick(async (node) => {
+                    .Text("ส่งคำร้องขอ")
+                    .OnClick(async (node) => {
                       if (
                         !requesterName.value ||
                         !requesterEmail.value ||
