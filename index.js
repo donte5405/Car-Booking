@@ -1,5 +1,4 @@
 //@ts-check
-import { BorderRadius, Style } from "./dandelion/dandelion.css.js";
 import {
   Button,
   Container,

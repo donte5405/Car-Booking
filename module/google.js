@@ -1,4 +1,6 @@
 //@ts-check
+const googleAppUrl = "https://script.google.com/macros/s/AKfycbx9bcU0Xp7XYAMnXCBBX6V6AusFhb1dOV2OAQaEURj_KBCMDeGHZ3gStvHdsIG8gHyS/exec";
+
 /**
  * Make a request.
  * @param {string} params
@@ -6,7 +8,7 @@
  */
 export async function request(params, body) {
     const res = await fetch(
-        window["googleAppUrl"] + (params ? "?" + params : ""),
+        googleAppUrl + (params ? "?" + params : ""),
         {
             method: "POST",
             redirect: "follow",
