@@ -7,6 +7,7 @@ import {
   DialogBody,
   DropDownMenu,
   DropDownOption,
+  getNodeById,
   HorizontalLine,
   InputCheckBox,
   InputDatePicker,
@@ -34,7 +35,7 @@ Dandelion((body) => {
         .FlexContainer()
         .HorCenter()
         .Add(
-          new Container("Main")
+          new Container("#Main")
             .OnSmallScreen((node) => node.Width(Percent(100)))
             .OnBigScreen((node) => node.Width(Px(640)))
             .Width(Px(240))
@@ -274,7 +275,9 @@ Dandelion((body) => {
                         createNotifyDialog("กรุณาระบุข้อมูลที่จำเป็นให้ครบถ้วน");
                         return;
                       }
-                      const d = createNotifyDialog("⏳ กำลังส่งข้อมูล โปรดรอสักครู่...");
+                      const d = createNotifyDialog(
+                        "⏳ กำลังส่งข้อมูล โปรดรอสักครู่...",
+                      );
                       const res = await request("request=request", {
                         requesterName: requesterName.value,
                         requesterEmail: requesterEmail.value,
@@ -302,10 +305,7 @@ Dandelion((body) => {
         ),
     );
 
-  const main = body.getNode(
-    "App/Main",
-    Node,
-  );
+  const main = getNodeById("Main", Node);
   const requesterName = main.getNode(
     "RequesterName/Text",
     InputText,
