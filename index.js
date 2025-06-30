@@ -277,7 +277,8 @@ Dandelion((body) => {
                       const d = createNotifyDialog(
                         "⏳ กำลังส่งข้อมูล โปรดรอสักครู่...",
                       );
-                      const res = await request("request=request", {
+                      const res = await request({
+                        method: "request",
                         requesterName: requesterName.value,
                         requesterEmail: requesterEmail.value,
                         requesterDepartment: requesterDepartment.value,

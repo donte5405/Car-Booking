@@ -3,12 +3,15 @@ const googleAppUrl = "https://script.google.com/macros/s/AKfycbx9bcU0Xp7XYAMnXCB
 
 /**
  * Make a request.
- * @param {string} params
  * @param {Record<string, any>} body
+ * @returns {Promise<Record<string,any>>}
  */
-export async function request(params, body) {
+export async function request(body = {}) {
+    if (window.location.href.indexOf("http://localhost:8080") === 0) {
+        body.debug = true; // Detect debug environment.
+    }
     const res = await fetch(
-        googleAppUrl + (params ? "?" + params : ""),
+        googleAppUrl,
         {
             method: "POST",
             redirect: "follow",
