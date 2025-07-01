@@ -1,5 +1,5 @@
 //@ts-check
-const googleAppUrl = "https://script.google.com/macros/s/AKfycbx9bcU0Xp7XYAMnXCBBX6V6AusFhb1dOV2OAQaEURj_KBCMDeGHZ3gStvHdsIG8gHyS/exec";
+const googleAppUrl = "https://script.google.com/macros/s/AKfycbyHJYzqHqgiSm83NUgfEDWt9E4b44Nw364xeXWP1d4Tc_nvDQ2JoDoh7InnoylbKt_3/exec";
 
 /**
  * Make a request.
@@ -7,7 +7,7 @@ const googleAppUrl = "https://script.google.com/macros/s/AKfycbx9bcU0Xp7XYAMnXCB
  * @returns {Promise<Record<string,any>>}
  */
 export async function request(body = {}) {
-    if (window.location.href.indexOf("http://localhost:8080") === 0) {
+    if (window.location.href.indexOf("http://") === 0) {
         body.debug = true; // Detect debug environment.
     }
     const res = await fetch(
