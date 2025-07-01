@@ -22,12 +22,15 @@ Dandelion(async (body) => {
                 .Add(
                   new Label("#Progress", "h1")
                     .Text("⏳ กำลังอนุมัติคำขอใช้รถยนต์ส่วนกลาง..."),
+                  new Label("#Second", "h4")
+                    .Text("อย่าปิดหน้าต่างนี้จนกว่าการอนุมัติจะเสร็จสิ้น"),
                 )
             ),
         ),
     );
   const params = new URLSearchParams(window.location.search);
   const lbProgress = getNodeById("Progress", Label);
+  const lbSecond = getNodeById("Second", Label);
   const main = getNodeById("Main", Container);
   const res = await request({
     method: "approve",
@@ -38,6 +41,11 @@ Dandelion(async (body) => {
     res.success ?
       "✅ อนุมัติคำขอเรียบร้อยแล้ว" :
       "❌ ผิดพลาด: " + res.error,
+  );
+  lbSecond.Text(
+    res.success ?
+      "คุณสามารถปิดหน้าต่างนี้ได้" :
+      "โปรดติดต่อเจ้าหน้าที่ IT",
   );
   main.Add(
     new Button()
