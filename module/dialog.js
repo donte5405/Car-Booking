@@ -15,8 +15,9 @@ import {
 /**
  * Spawn a dialog.
  * @param {string} text
+ * @param {function} func
  */
-export function createNotifyDialog(text) {
+export function createNotifyDialog(text, func = null) {
   const lb = new Label()
     .Text(text)
     .VerCenter()
@@ -43,7 +44,12 @@ export function createNotifyDialog(text) {
               .Width(Px(100))
               .Text("ปิด")
               .Stretch()
-              .OnClick(() => d.detach()),
+              .OnClick(() => {
+                d.detach();
+                if (func) {
+                  func();
+                }
+              }),
           ),
         ),
     );

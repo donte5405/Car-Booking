@@ -1,11 +1,14 @@
 //@ts-check
 import { Button, Container, Dandelion, getNodeById, InputText, Label, Node, Percent, Px, TextArea } from "../dandelion/dandelion.js";
+import { UseDefaultTheme } from "../dandelion/default.css.js";
 import { createNotifyDialog } from "../module/dialog.js";
 import { request } from "../module/google.js";
 
+UseDefaultTheme();
+
 Dandelion((body) => {
   const params = new URLSearchParams(window.location.search);
-  const requestUid = params.get("requestid");
+  const requestUid = params.get("id");
   const approverToken = params.get("token");
   body.Title("ปฏิเสธการใช้รถส่วนกลาง")
     .Add(
@@ -28,7 +31,6 @@ Dandelion((body) => {
                 new Label("Lb", "p")
                   .Text("รหัสคำขอ"),
                 new InputText()
-                  .Enabled(false)
                   .InputValue(requestUid),
               ),
             new Node("Reasons")
@@ -46,12 +48,18 @@ Dandelion((body) => {
                 new Button()
                   .Text("ส่งข้อความ")
                   .OnClick(async () => {
+                    const progress = createNotifyDialog(
+                      "⏳ กำลังส่งการปฏิเสธ . . ."
+                    );
                     const res = await request({
                       method: "reject",
+                      id: requestUid,
                       token: approverToken,
-                      requestId: requestUid,
                       reasons: getNodeById("Reasons", TextArea).value,
                     });
+                    if (progress.parent) {
+                      progress.detach();
+                    }
                     createNotifyDialog(
                       res.success ?
                         "✅ ส่งการปฏิเสธสำเร็จ" :

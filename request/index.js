@@ -19,10 +19,10 @@ import {
   Px,
   TextArea,
   WindowNode,
-} from "./dandelion/dandelion.js";
-import { UseDefaultTheme } from "./dandelion/default.css.js";
-import { createNotifyDialog } from "./module/dialog.js";
-import { request } from "./module/google.js";
+} from "../dandelion/dandelion.js";
+import { UseDefaultTheme } from "../dandelion/default.css.js";
+import { createNotifyDialog } from "../module/dialog.js";
+import { request } from "../module/google.js";
 
 UseDefaultTheme();
 
@@ -282,7 +282,7 @@ Dandelion((body) => {
                         requesterName: requesterName.value,
                         requesterEmail: requesterEmail.value,
                         requesterDepartment: requesterDepartment.value,
-                        requesterReasons: requesterReasons.value,
+                        requestReasons: requesterReasons.value,
                         isRequestUrgent: isRequestUrgent.isChecked,
                         isRequestRush: isRequestRush.isChecked,
                         requesterParticipants: requesterParticipants.value,

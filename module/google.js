@@ -1,14 +1,18 @@
 //@ts-check
-const googleAppUrl = "https://script.google.com/macros/s/AKfycbyHJYzqHqgiSm83NUgfEDWt9E4b44Nw364xeXWP1d4Tc_nvDQ2JoDoh7InnoylbKt_3/exec";
-
+const googleAppUrl = "https://script.google.com/macros/s/AKfycbwduHs76NY8MTY4jMXuFfFep3je3E9p1t1dxP9Zvs5S6kYAcvYb8hvzTlmbrQdw8nGy/exec";
 /**
  * Make a request.
  * @param {Record<string, any>} body
  * @returns {Promise<Record<string,any>>}
  */
 export async function request(body = {}) {
+    const session = window.sessionStorage.getItem("session");
     if (window.location.href.indexOf("http://") === 0) {
         body.debug = true; // Detect debug environment.
+    }
+    if (session) {
+        console.log("session detected.");
+        body.session = session;
     }
     const res = await fetch(
         googleAppUrl,
@@ -23,5 +27,10 @@ export async function request(body = {}) {
             body: JSON.stringify(body),
         },
     );
-    return JSON.parse(await res.text());
+    const data = JSON.parse(await res.text());
+    if (data.session) {
+        window.sessionStorage.setItem("session", data.session);
+        console.log("new session saved");
+    }
+    return data;
 }
