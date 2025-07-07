@@ -26,6 +26,13 @@ function generateCarText(car) {
 
 Dandelion(async (body) => {
   const { title, sidebar, topNavLeft, topNavRight, content } = buildBody(body);
+  sidebar.Add(
+    new Button()
+      .Text("⬅️ ย้อนกลับ")
+      .OnClick(() => {
+        window.location.href = "../requests";
+      }),
+  );
   title.Text("จัดสรรการใช้รถ");
   content.Add(
     new Label("LbLoading", "p")
