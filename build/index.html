@@ -6,8 +6,9 @@
     <title>Car Booking System</title>
 </head>
 <body>
+    <div id="ver">__________1__________</div>
     <script>
-        const buildNumber = 1;
+        const buildNumber = document.getElementById("ver").innerHTML.split("_________")[1];
         setTimeout(() => window.location.href = `https://pmdh-car.pages.dev/build-${buildNumber}/request`, 3000);
     </script>
     <h1 style="position: fixed; top: 50%; left: 50%; bottom: 50%; right: 50%;"> Entering Car Booking System...</h1>
