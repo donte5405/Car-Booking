@@ -29,7 +29,7 @@ Dandelion(async (body) => {
   if (storageData) {
     carData = JSON.parse(storageData);
   }
-  
+
   content.Add(
     new Node("Title")
       .HorCenter()
@@ -46,6 +46,15 @@ Dandelion(async (body) => {
           .Stretch()
           .InputValue(carData.licenseId || ""),
       ),
+    new Node("CarMileage")
+      .HorLeft()
+      .Add(
+        new Label()
+          .Text("เลขไมล์ที่บันทึกไว้ล่าสุด"),
+        new InputText("#Mileage")
+          .Stretch()
+          .InputValue(carData.licenseId || ""),
+      ),
     new Node("CarName")
       .HorLeft()
       .Add(
@@ -56,15 +65,6 @@ Dandelion(async (body) => {
           .LockWidth(Percent(100))
           .MinHeight(Px(128))
           .Text(carData.name || ""),
-      ),
-    new Node("CarMileage")
-      .HorLeft()
-      .Add(
-        new Label()
-          .Text("ชื่อ และข้อมูลรายละเอียดรถ"),
-        new InputText("#Mileage")
-          .Stretch()
-          .InputValue(carData.licenseId || ""),
       ),
     new Node("Submit")
       .HorRight()
@@ -90,7 +90,10 @@ Dandelion(async (body) => {
               return;
             }
 
-            createNotifyDialog("✅ บันทึกรายการเรียบร้อยแล้ว", () => window.location.href = "../cars");
+            createNotifyDialog(
+              "✅ บันทึกรายการเรียบร้อยแล้ว",
+              () => window.location.href = "../cars",
+            );
           }),
       ),
   );
