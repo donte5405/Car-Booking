@@ -42,7 +42,7 @@ Dandelion(async (body) => {
   const params = new URLSearchParams(window.location.search);
   const res = await request({
     method: "auth",
-    token: window.localStorage.getItem("token") || params.get("token") || undefined,
+    token: params.get("token") || window.localStorage.getItem("token") || undefined,
   });
   console.log(res);
   if (res.success) {
