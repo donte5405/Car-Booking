@@ -69,7 +69,7 @@ Dandelion(async (body) => {
         .ExternalMargin(Px(16))
         .ColumnHeaders(
           ["licenseId", "เลขป้ายทะเบียน", Px(64)],
-          ["name", "ชื่อรถ", Px(256)],
+          ["name", "ชื่อ และข้อมูลรายละเอียดรถ", Px(256)],
           ["mileage", "เลขไมล์", Px(64)],
           ["editButton", "แก้ไข", Px(64)],
         )
