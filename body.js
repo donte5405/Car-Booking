@@ -76,6 +76,9 @@ export function buildBody(body) {
       new $TopNavigationBar("TopNav")
         .Left((node) =>
           node.Id("TopNavLeft").Add(
+            new ImageFrame()
+              .MaxHeight(Px(32))
+              .Source("https://website-storage.princhealth.com/pmdh/settings/20241211133602-pmdh-weblogo-01.png"),
             new Label("#Title").Text("ระบบจัดการการขอใช้รถยนต์ส่วนกลาง"),
           ) // Left
         )
