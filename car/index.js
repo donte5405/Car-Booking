@@ -53,7 +53,7 @@ Dandelion(async (body) => {
           .Text("เลขไมล์ที่บันทึกไว้ล่าสุด"),
         new InputText("#Mileage")
           .Stretch()
-          .InputValue(carData.licenseId || ""),
+          .InputValue(carData.mileage || ""),
       ),
     new Node("CarName")
       .HorLeft()
