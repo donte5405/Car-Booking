@@ -1,6 +1,12 @@
 //@ts-check
 import { buildBody } from "../body.js";
 import {
+  BackgroundColor,
+  ElementState,
+  MixColors,
+  Style,
+} from "../dandelion/dandelion.css.js";
+import {
   Button,
   Container,
   Dandelion,
@@ -18,8 +24,6 @@ import { createNotifyDialog } from "../module/dialog.js";
 import { request } from "../module/google.js";
 import { formatThaiDate, parseThaiDate } from "../module/thaidate.js";
 
-UseDefaultTheme();
-
 function generateCarText(car) {
   return "🚗 " + car.licenseId + " " + car.name + " (เลขไมล์ปัจจุบัน " +
     String(car.mileage) + ")";
@@ -27,6 +31,18 @@ function generateCarText(car) {
 
 Dandelion(async (body) => {
   const { title, sidebar, topNavLeft, topNavRight, content } = buildBody(body);
+  const mixCol = MixColors("#C70039");
+  const cancelButtonTheme = Style(
+    new BackgroundColor(mixCol.normal),
+    new ElementState("hover").define(
+      new BackgroundColor(mixCol.hover),
+    ),
+    new ElementState("active").define(
+      new BackgroundColor(mixCol.pressed),
+    ),
+  );
+  console.log("two");
+
   sidebar.Add(
     new Button()
       .Text("⬅️ ย้อนกลับ")
@@ -277,6 +293,10 @@ Dandelion(async (body) => {
                   .InputValue(requestData.allocator),
               ),
           ),
+        new Button()
+          .Class(cancelButtonTheme)
+          .OnClick(() => getNodeById("CancelRequest", Node).show())
+          .Text("ยกเลิกคำร้องขอ"),
         new Button("SubmitButton")
           .OnClick(async () => {
             // Check data
@@ -420,6 +440,72 @@ Dandelion(async (body) => {
                   .MinWidth(Px(128))
                   .OnClick(() => getNodeById("SelectCar", Node).hide())
                   .Text("ยกเลิก"),
+              ),
+          ),
+      ),
+    new DialogBody("#CancelRequest")
+      .Hidden()
+      .Dim()
+      .Add(
+        new Container()
+          .Panel()
+          .FlexContainer()
+          .FlexDirection("column")
+          .FlexWrap("wrap")
+          .Width(Px(1024))
+          .Height(Px(576))
+          .InternalMargin(Px(16))
+          .Add(
+            new Label("Lb", "h2")
+              .Text("ยกเลิกคำร้องขอ"),
+            new Label()
+              .HorLeft()
+              .Text("เหตุผลที่ต้องการยกเลิกคำขอ" + (requestData.name ? "จาก " + requestData.name : "")),
+            new TextArea("#CancelReasons")
+              .Stretch(),
+            new Node()
+              .FlexContainer()
+              .HorCenter()
+              .Add(
+                new Button()
+                  .MinWidth(Px(128))
+                  .OnClick(() => getNodeById("CancelRequest", Node).hide())
+                  .Text("ย้อนกลับ"),
+                new Button()
+                  .MinWidth(Px(128))
+                  .Class(cancelButtonTheme)
+                  .OnClick(async () => {
+                    const reasons = getNodeById("CancelReasons", TextArea).value;
+                    if (!reasons.trim()) {
+                      createNotifyDialog("❌ กรุณาระบุเหตุกผลการยกเลิกคำขอ");
+                      return;
+                    }
+                    
+                    getNodeById("CancelRequest", Node).hide();
+                    const progress = createNotifyDialog(
+                      "⏳ กำลังบันทึกการยกเลิกคำขอ . . .",
+                    );
+                    const res = await request({
+                      method: "allocate",
+                      cancel: true,
+                      reasons,
+                    });
+        
+                    if (progress.parent) {
+                      progress.detach();
+                    }
+        
+                    if (!res.success) {
+                      createNotifyDialog("❌ ผิดพลาด: " + res.error);
+                      return;
+                    }
+        
+                    createNotifyDialog("✅ ดำเนินการยกเลิกเรียบร้อยแล้ว", () => {
+                      // Return to request list screen.
+                      window.location.href = "../requests";
+                    });
+                  })
+                  .Text("ยกเลิกคำร้องขอ"),
               ),
           ),
       ),
