@@ -43,6 +43,11 @@ Dandelion((body) => {
             .Add(
               new Label("LbTitle", "h1")
                 .Text("ระบบขอใช้รถออนไลน์"),
+              new Button()
+                .Text("ดูคำร้องขอที่มีอยู่ทั้งหมด")
+                .OnClick(() => {
+                  window.location.href = "../schedule";
+                }),
               new Node("RequesterName")
                 .Add(
                   new Label("Lb", "p")
