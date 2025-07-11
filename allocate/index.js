@@ -487,6 +487,7 @@ Dandelion(async (body) => {
                     );
                     const res = await request({
                       method: "allocate",
+                      id: requestData.id,
                       cancel: true,
                       reasons,
                     });
