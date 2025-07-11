@@ -101,6 +101,9 @@ export function buildBody(body) {
             new Button()
               .OnClick(() => window.location.href = "../cars")
               .Text("🚗 รายการรถทั้งหมด"),
+            new Button()
+              .OnClick(() => window.location.href = "../request")
+              .Text("📄 ออกคำร้องขอใหม่"),
           ) // TODO: Add sidebar menus.
           // Sidebar
         )
