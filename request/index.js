@@ -50,7 +50,8 @@ Dandelion((body) => {
                     .HorLeft()
                     .Text("ชื่อผู้ที่ร้องขอ"),
                   new InputText("Text")
-                    .PlaceholderText("กรอกชื่อ - นามสกุลของท่าน"),
+                    .PlaceholderText("กรอกชื่อ - นามสกุลของท่าน")
+                    .InputValue(window.localStorage.getItem("requesterName") || ""),
                 ),
               new Node("RequesterEmail")
                 .Add(
@@ -61,7 +62,8 @@ Dandelion((body) => {
                   new InputEmail("Text")
                     .PlaceholderText(
                       "กรอก E-mail ของท่าน เช่น johndoe@gmail.com",
-                    ),
+                    )
+                    .InputValue(window.localStorage.getItem("requesterEmail") || ""),
                 ),
               new Node("RequesterDepartment")
                 .Add(
@@ -261,6 +263,10 @@ Dandelion((body) => {
                   new Button("Button")
                     .Text("ส่งคำร้องขอ")
                     .OnClick(async (node) => {
+                      // Save frequently used value.
+                      window.localStorage.setItem("requesterName", requesterName.value);
+                      window.localStorage.setItem("requesterEmail", requesterEmail.value);
+
                       if (
                         !requesterName.value ||
                         !requesterEmail.value ||
