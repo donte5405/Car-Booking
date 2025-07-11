@@ -16,6 +16,7 @@ import {
 import { UseDefaultTheme } from "../dandelion/default.css.js";
 import { createNotifyDialog } from "../module/dialog.js";
 import { request } from "../module/google.js";
+import { formatThaiDate, parseThaiDate } from "../module/thaidate.js";
 
 UseDefaultTheme();
 
@@ -95,7 +96,9 @@ Dandelion(async (body) => {
             selectedCarData = car;
             getNodeById("SelectCar", Node).hide();
             getNodeById("SelectCarButton", Button).Text(carText);
-            getNodeById("MileageStart", InputText).InputValue(String(car.mileage));
+            getNodeById("MileageStart", InputText).InputValue(
+              String(car.mileage),
+            );
           })
           .Text(carText),
       );
@@ -137,7 +140,7 @@ Dandelion(async (body) => {
           .FlexDirection("row")
           .Add(
             new Node("RequesterName")
-              .MinWidth(Percent(30))
+              .MinWidth(Percent(32))
               .Add(
                 new Label("Lb", "p")
                   .Bold()
@@ -147,24 +150,8 @@ Dandelion(async (body) => {
                   .HorLeft()
                   .Text(requestData.name),
               ),
-            new Node("RequestDuration")
-              .MinWidth(Percent(30))
-              .Add(
-                new Label("Lb", "p")
-                  .Bold()
-                  .HorLeft()
-                  .Text("ระยะเวลาที่ต้องใช้รถ"),
-                new Node()
-                  .FlexContainer()
-                  .FlexWrap("wrap")
-                  .Add(
-                    new Label().ExternalMargin(Px(0)).Text(requestData.from),
-                    "–",
-                    new Label().ExternalMargin(Px(0)).Text(requestData.to),
-                  ),
-              ),
             new Node("RequestParticipants")
-              .MinWidth(Percent(30))
+              .MinWidth(Percent(32))
               .Add(
                 new Label("Lb", "p")
                   .Bold()
@@ -175,7 +162,7 @@ Dandelion(async (body) => {
                   .Text(requestData.participants),
               ),
             new Node("RequestReasons")
-              .MinWidth(Percent(30))
+              .MinWidth(Percent(32))
               .Add(
                 new Label("Lb", "p")
                   .Bold()
@@ -185,6 +172,32 @@ Dandelion(async (body) => {
                   .HorLeft()
                   .Text(requestData.reasons),
               ),
+            new Node("RequestFrom")
+              .MinWidth(Percent(32))
+              .HorLeft()
+              .Add(
+                new Label("Lb", "p")
+                  .Bold()
+                  .HorLeft()
+                  .Text("เวลาเริ่มใช้รถ"),
+                new InputText("#FromTime")
+                  .Stretch()
+                  .AutocompleteEnabled()
+                  .InputValue(requestData.from),
+              ),
+            new Node("RequestTo")
+              .MinWidth(Percent(32))
+              .HorLeft()
+              .Add(
+                new Label("Lb", "p")
+                  .Bold()
+                  .HorLeft()
+                  .Text("เวลาสิ้นสุดการใช้รถ"),
+                new InputText("#ToTime")
+                  .Stretch()
+                  .AutocompleteEnabled()
+                  .InputValue(requestData.to),
+              ),
           ),
         new Node("RequestCar")
           .MinWidth(Percent(47))
@@ -193,7 +206,7 @@ Dandelion(async (body) => {
             new Label("Lb", "p")
               .Bold()
               .HorLeft()
-              .Text("รถยนต์ส่วนกลางที่จอง"),
+              .Text("รถยนต์ส่วนกลางที่จัดสรร"),
             new Button("#SelectCarButton")
               .OnClick(() => getNodeById("SelectCar", Node).show())
               .Text("กำลังโหลด . . ."),
@@ -208,6 +221,7 @@ Dandelion(async (body) => {
           .FlexDirection("row")
           .Add(
             new Node("RequestMileageStart")
+              .Stretch()
               .MinWidth(Percent(47))
               .HorLeft()
               .Add(
@@ -221,6 +235,7 @@ Dandelion(async (body) => {
                   .InputValue(requestData.mileageStart),
               ),
             new Node("RequestMileageEnd")
+              .Stretch()
               .MinWidth(Percent(47))
               .HorLeft()
               .Add(
@@ -234,6 +249,7 @@ Dandelion(async (body) => {
                   .InputValue(requestData.mileageEnd),
               ),
             new Node("RequestDriver")
+              .Stretch()
               .MinWidth(Percent(47))
               .HorLeft()
               .Add(
@@ -247,6 +263,7 @@ Dandelion(async (body) => {
                   .InputValue(requestData.driver),
               ),
             new Node("RequestAllocator")
+              .Stretch()
               .MinWidth(Percent(47))
               .HorLeft()
               .Add(
@@ -267,6 +284,8 @@ Dandelion(async (body) => {
               method: "allocate",
               id: requestData.id,
               carId: selectedCarData.id,
+              from: getNodeById("FromTime", InputText).value,
+              to: getNodeById("ToTime", InputText).value,
               driver: getNodeById("Driver", InputText).value,
               allocator: getNodeById("Allocator", InputText).value,
               mileageStart: getNodeById("MileageStart", InputText).value,
@@ -275,34 +294,49 @@ Dandelion(async (body) => {
 
             if (!body.id.trim()) {
               createNotifyDialog(
-                "❌ เลขที่ UID คำร้องขอไม่ถูกต้อง ลองเข้าเมนูรายการคำขอแล้วลองอีกครั้ง"
+                "❌ เลขที่ UID คำร้องขอไม่ถูกต้อง ลองเข้าเมนูรายการคำขอแล้วลองอีกครั้ง",
               );
               return;
             }
             if (!body.carId.trim()) {
               createNotifyDialog(
-                "❌ คุณยังไม่ได้เลือกรถ ดำเนินการต่อไม่ได้"
+                "❌ คุณยังไม่ได้เลือกรถ ดำเนินการต่อไม่ได้",
               );
               return;
             }
             if (!body.driver.trim()) {
               createNotifyDialog(
-                "❌ ยังไม่ได้ลงชื่อพลขับ"
+                "❌ ยังไม่ได้ลงชื่อพลขับ",
               );
               return;
             }
             if (!body.allocator.trim()) {
               createNotifyDialog(
-                "❌ ยังไม่ได้ลงชื่อผู้จัดสรรรถ"
+                "❌ ยังไม่ได้ลงชื่อผู้จัดสรรรถ",
               );
               return;
             }
             if (!body.mileageStart.trim()) {
               createNotifyDialog(
-                "❌ ต้องระบุเลขไมล์เริ่มต้น"
+                "❌ ต้องระบุเลขไมล์เริ่มต้น",
               );
               return;
             }
+
+            try {
+              formatThaiDate(parseThaiDate(body.from));
+            } catch (e) {
+              createNotifyDialog("เวลาที่เริ่มต้นใช้รถ ไม่ถูกต้อง: " + e.message);
+              return;
+            }
+
+            try {
+              formatThaiDate(parseThaiDate(body.to));
+            } catch (e) {
+              createNotifyDialog("เวลาสิ้นสุดการใช้รถ ไม่ถูกต้อง: " + e.message);
+              return;
+            }
+
             const mileageNumStart = Number(body.mileageStart.trim());
             const mileageNumEnd = Number(body.mileageEnd.trim());
             console.log(selectedCarData);
@@ -315,20 +349,20 @@ Dandelion(async (body) => {
             }
             if (isNaN(carMileageNum)) {
               createNotifyDialog(
-                "❌ รอข้อมูลรถโหลดเสร็จก่อน"
+                "❌ รอข้อมูลรถโหลดเสร็จก่อน",
               );
               return;
             }
             if (mileageNumStart < carMileageNum) {
               createNotifyDialog(
-                "❌ เลขไมล์ห้ามต่ำกว่าที่เคยบันทึกไว้"
+                "❌ เลขไมล์ห้ามต่ำกว่าที่เคยบันทึกไว้",
               );
               return;
             }
             if (mileageNumEnd) {
               if (mileageNumEnd < carMileageNum) {
                 createNotifyDialog(
-                  "❌ เลขไมล์เมื่อใช้งานรถเสร็จสิ้น ห้ามต่ำกว่าที่เคยบันทึกไว้"
+                  "❌ เลขไมล์เมื่อใช้งานรถเสร็จสิ้น ห้ามต่ำกว่าที่เคยบันทึกไว้",
                 );
                 return;
               }
@@ -336,7 +370,7 @@ Dandelion(async (body) => {
 
             // Submit request.
             const progress = createNotifyDialog(
-              "⏳ กำลังยืนยันการจองรถ . . ."
+              "⏳ กำลังยืนยันการจองรถ . . .",
             );
             const res = await request(body);
 
@@ -354,7 +388,7 @@ Dandelion(async (body) => {
               window.location.href = "../requests";
             });
           })
-          .Text("ยืนยันการจัดสรรรถ")
+          .Text("บันทึกข้อมูล"),
       ),
     new DialogBody("#SelectCar")
       .Hidden()
