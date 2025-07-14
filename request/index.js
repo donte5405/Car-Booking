@@ -55,8 +55,11 @@ Dandelion((body) => {
                     .HorLeft()
                     .Text("ชื่อผู้ที่ร้องขอ"),
                   new InputText("Text")
+                    .AutocompleteEnabled()
                     .PlaceholderText("กรอกชื่อ - นามสกุลของท่าน")
-                    .InputValue(window.localStorage.getItem("requesterName") || ""),
+                    .InputValue(
+                      window.localStorage.getItem("requesterName") || "",
+                    ),
                 ),
               new Node("RequesterEmail")
                 .Add(
@@ -65,10 +68,13 @@ Dandelion((body) => {
                     .HorLeft()
                     .Text("อีเมลของผู้ที่ร้องขอ"),
                   new InputEmail("Text")
+                    .AutocompleteEnabled()
                     .PlaceholderText(
                       "กรอก E-mail ของท่าน เช่น johndoe@gmail.com",
                     )
-                    .InputValue(window.localStorage.getItem("requesterEmail") || ""),
+                    .InputValue(
+                      window.localStorage.getItem("requesterEmail") || "",
+                    ),
                 ),
               new Node("RequesterDepartment")
                 .Add(
@@ -167,7 +173,10 @@ Dandelion((body) => {
                         "แผนกหอผู้ป่วยใน ชั้น 6",
                         "WA6 - แผนกหอผู้ป่วยใน ชั้น 6",
                       ),
-                      new DropDownOption("สำนักผู้อำนวยการโรงพยาบาล", "MAO - สำนักผู้อำนวยการโรงพยาบาล"),
+                      new DropDownOption(
+                        "สำนักผู้อำนวยการโรงพยาบาล",
+                        "MAO - สำนักผู้อำนวยการโรงพยาบาล",
+                      ),
                       new DropDownOption(
                         "ผู้อำนวยการโรงพยาบาล",
                         "ผู้อำนวยการโรงพยาบาล",
@@ -269,8 +278,14 @@ Dandelion((body) => {
                     .Text("ส่งคำร้องขอ")
                     .OnClick(async (node) => {
                       // Save frequently used value.
-                      window.localStorage.setItem("requesterName", requesterName.value);
-                      window.localStorage.setItem("requesterEmail", requesterEmail.value);
+                      window.localStorage.setItem(
+                        "requesterName",
+                        requesterName.value,
+                      );
+                      window.localStorage.setItem(
+                        "requesterEmail",
+                        requesterEmail.value,
+                      );
 
                       if (
                         !requesterName.value ||
