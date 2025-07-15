@@ -9,6 +9,11 @@
     <div style="display:none;" id="ver">__________12__________</div>
     <script>
         const buildNumber = document.getElementById("ver").innerHTML.split("__________")[1];
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("target") === "porter") {
+            setTimeout(() => window.location.href = `https://pmdh-car.pages.dev/build-${buildNumber}/requests`, 500);
+            return;
+        }
         setTimeout(() => window.location.href = `https://pmdh-car.pages.dev/build-${buildNumber}/request`, 500);
     </script>
     <h1 style="position: fixed; top: 50%; left: 50%; bottom: 50%; right: 50%;"> Entering Car Booking System...</h1>
