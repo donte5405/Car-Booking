@@ -42,12 +42,11 @@ Dandelion(async (body) => {
     res.success.reverse();
 
     for (const row of res.success) {
-      row.approveButton = row.approved === "✅"
+      row.approveButton = row.approved !== "❌"
         ? new Button().Text("จัดสรร")
           .OnClick(() => {
             window.sessionStorage.setItem("requestData", JSON.stringify(row));
             window.location.href = "../allocate/";
-            // TODO: Complete the 'allocate' page.
           })
         : new Node();
     }
