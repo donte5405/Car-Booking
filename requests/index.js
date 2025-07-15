@@ -56,6 +56,7 @@ Dandelion(async (body) => {
         new Label("LbTitle", "h2")
         .Text("รายการคำร้องขอทั้งหมด"),
         new Label().Text("อัปเดตครั้งล่าสุดเมื่อ " + formatThaiDate()),
+        new Label().Italic().Text("กรณีที่ต้องใช้รถอย่างเร่งด่วน ให้ผู้ร้องขอ ขอคำอนุมัติจาก HoD/ผู้บังคับบัญชาทางวาจา/โทรศัพท์ จึงค่อยดำเนินการจัดสรรรถ"),
         new Table("#Table")
           .FitHor()
           .ExternalMargin(Px(16))
