@@ -47,7 +47,7 @@ Dandelion(async (body) => {
   console.log(res);
   if (res.success) {
     window.localStorage.setItem("token", res.success);
-    window.sessionStorage.setItem("session", res.session);
+    window.localStorage.setItem("session", res.session);
     window.location.href = "../requests/";
   } else {
     getNodeById("Status", Label).Text("❌ เข้าสู่ระบบล้มเหลว โปรดเข้าสู่ระบบจาก Email");

@@ -7,7 +7,7 @@ const googleAppUrl = "https://script.google.com/macros/s/AKfycbzbIxY41w0t24E65_Y
  * @returns {Promise<Record<string,any>>}
  */
 export async function request(body = {}) {
-    const session = window.sessionStorage.getItem("session");
+    const session = window.localStorage.getItem("session");
     if (window.location.href.indexOf("http://") === 0) {
         body.debug = true; // Detect debug environment.
     }
@@ -30,7 +30,7 @@ export async function request(body = {}) {
     );
     const data = JSON.parse(await res.text());
     if (data.session) {
-        window.sessionStorage.setItem("session", data.session);
+        window.localStorage.setItem("session", data.session);
         console.log("new session saved");
     }
     return data;
