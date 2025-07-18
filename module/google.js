@@ -12,7 +12,6 @@ export async function request(body = {}) {
         body.debug = true; // Detect debug environment.
     }
     if (session) {
-        console.log("session detected.");
         body.session = session;
     }
     const res = await fetch(
@@ -31,7 +30,6 @@ export async function request(body = {}) {
     const data = JSON.parse(await res.text());
     if (data.session) {
         window.localStorage.setItem("session", data.session);
-        console.log("new session saved");
     }
     return data;
 }
