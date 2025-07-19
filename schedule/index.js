@@ -12,12 +12,14 @@ import {
   Px,
 } from "../dandelion/dandelion.js";
 import { UseDefaultTheme } from "../dandelion/default.css.js";
-import { createNotifyDialog } from "../module/dialog.js";
+import { checkVersion } from "../module/ver.js";
 import { request } from "../module/google.js";
 
 UseDefaultTheme();
 
 Dandelion(async (body) => {
+  checkVersion();
+
   body
     .Title("ตารางการจองรถ")
     .Add(

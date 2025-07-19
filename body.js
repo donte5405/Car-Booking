@@ -17,7 +17,7 @@ import {
   ViewportHeight,
 } from "./dandelion/dandelion.js";
 import { UseDefaultTheme } from "./dandelion/default.css.js";
-import { createNotifyDialog } from "./module/dialog.js";
+import { checkVersion } from "./module/ver.js";
 
 /**
  * Manages daily date checking using localStorage.
@@ -127,22 +127,7 @@ export function buildBody(body) {
     );
 
   // Check version update.
-  const checkVer = async () => {
-    if (window.location.href.indexOf("https://") === 0) {
-      if (isNewDate()) {
-        const res = await fetch("https://" + window.location.hostname);
-        const version = (await res.text()).split("__________")[1];
-        const current = window.localStorage.getItem("currentVersion");
-        if (current != version) {
-          createNotifyDialog("กำลังอัปเดตไปเวอร์ชันใหม่ . . .");
-          window.localStorage.setItem("currentVersion", version);
-          window.location.href = "../../build-" + version + "/requests";
-        }
-      }
-    }
-  };
-  setTimeout(checkVer, 1000);
-  setInterval(checkVer, 30000);
+  checkVersion();
 
   return {
     title: getNodeById("Title", Label),

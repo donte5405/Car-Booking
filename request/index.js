@@ -3,7 +3,6 @@ import {
   Button,
   Container,
   Dandelion,
-  DialogBody,
   DropDownMenu,
   DropDownOption,
   getNodeById,
@@ -18,15 +17,25 @@ import {
   Percent,
   Px,
   TextArea,
-  WindowNode,
 } from "../dandelion/dandelion.js";
 import { UseDefaultTheme } from "../dandelion/default.css.js";
 import { createNotifyDialog } from "../module/dialog.js";
 import { request } from "../module/google.js";
+import { checkVersion } from "../module/ver.js";
 
 UseDefaultTheme();
 
 Dandelion((body) => {
+  checkVersion();
+
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const date = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  //const seconds = String(now.getSeconds()).padStart(2, '0');
+  //const ms = String(now.getMilliseconds()).padStart(3, '0');
   body
     .Title("ระบบขอใช้รถออนไลน์")
     .Add(
@@ -233,7 +242,11 @@ Dandelion((body) => {
                         .Width(Percent(50))
                         .HorLeft()
                         .Add(
-                          new InputDatePicker("Text"),
+                          new InputDatePicker("Text")
+                            .InputValue(`${year}-${month}-${date}`)
+                            .On("change", (node) => {
+                              requestToDate.value = node.value;
+                            }),
                         ),
                       new Node("Time")
                         .InternalMargin(Px(0), Px(0), Px(0), Px(10))
@@ -241,7 +254,11 @@ Dandelion((body) => {
                         .Width(Percent(50))
                         .HorRight()
                         .Add(
-                          new InputTime("Text"),
+                          new InputTime("Text")
+                            .InputValue(`${hours}:00`)
+                            .On("change", (node) => {
+                              requestToTime.value = node.value;
+                            }),
                         ),
                     ),
                 ),
@@ -260,7 +277,8 @@ Dandelion((body) => {
                         .Width(Percent(50))
                         .HorLeft()
                         .Add(
-                          new InputDatePicker("Text"),
+                          new InputDatePicker("Text")
+                            .InputValue(`${year}-${month}-${date}`),
                         ),
                       new Node("Time")
                         .InternalMargin(Px(0), Px(0), Px(0), Px(10))
@@ -268,7 +286,8 @@ Dandelion((body) => {
                         .Width(Percent(50))
                         .HorRight()
                         .Add(
-                          new InputTime("Text"),
+                          new InputTime("Text")
+                            .InputValue(`${hours}:00`),
                         ),
                     ),
                 ),
