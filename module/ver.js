@@ -1,7 +1,10 @@
 //@ts-check
 import { createNotifyDialog } from "./dialog.js";
 
-export function checkVersion() {
+/**
+ * @param {boolean} isPorter 
+ */
+export function checkVersion(isPorter) {
     if (window.location.href.indexOf("https://") === 0) {
         // Check version update.
         const checkVer = async () => {
@@ -11,7 +14,7 @@ export function checkVersion() {
             if (current != version) {
                 createNotifyDialog("กำลังอัปเดตไปเวอร์ชันใหม่ . . .");
                 window.localStorage.setItem("currentVersion", version);
-                window.location.href = "../../build-" + version + "/requests";
+                window.location.href = "../../build-" + version + "/" + (isPorter ? "?target=porter" : "");
             }
         };
         setTimeout(checkVer, 1000);

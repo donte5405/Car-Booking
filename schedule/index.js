@@ -18,7 +18,7 @@ import { request } from "../module/google.js";
 UseDefaultTheme();
 
 Dandelion(async (body) => {
-  checkVersion();
+  checkVersion(false);
 
   body
     .Title("ตารางการจองรถ")

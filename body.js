@@ -127,7 +127,7 @@ export function buildBody(body) {
     );
 
   // Check version update.
-  checkVersion();
+  checkVersion(true);
 
   return {
     title: getNodeById("Title", Label),

@@ -26,7 +26,7 @@ import { checkVersion } from "../module/ver.js";
 UseDefaultTheme();
 
 Dandelion((body) => {
-  checkVersion();
+  checkVersion(false);
 
   const now = new Date();
   const year = now.getFullYear();
@@ -92,6 +92,10 @@ Dandelion((body) => {
                     .HorLeft()
                     .Text("แผนกของผู้ที่ร้องขอ"),
                   new DropDownMenu("Text")
+                    .On("change", (node) => {
+                      window.localStorage.setItem("requesterDepartment", node.value);
+                      console.log("item set");
+                    })
                     .Options(
                       new DropDownOption("แผนกห้องฉุกเฉิน", "ERD - แผนกห้องฉุกเฉิน"),
                       new DropDownOption("แผนกรังสีวินิจฉัย", "RAD - แผนกรังสีวินิจฉัย"),
@@ -190,6 +194,9 @@ Dandelion((body) => {
                         "ผู้อำนวยการโรงพยาบาล",
                         "ผู้อำนวยการโรงพยาบาล",
                       ),
+                    )
+                    .InputValue(
+                      window.localStorage.getItem("requesterDepartment") || ""
                     ),
                 ),
               new Node("RequesterReasons")
