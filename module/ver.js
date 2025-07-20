@@ -9,11 +9,15 @@ export function checkVersion(isPorter) {
         // Check version update.
         const checkVer = async () => {
             const res = await fetch("https://" + window.location.hostname);
-            const version = (await res.text()).split("__________")[1];
             const current = window.localStorage.getItem("currentVersion");
+            const version = (await res.text()).split("__________")[1];
+            window.localStorage.setItem("currentVersion", version);
+            if (!current) {
+                console.log("Freshly new session, no need to check.");
+                return;
+            }
             if (current != version) {
                 createNotifyDialog("กำลังอัปเดตไปเวอร์ชันใหม่ . . .");
-                window.localStorage.setItem("currentVersion", version);
                 window.location.href = "../../build-" + version + "/" + (isPorter ? "?target=porter" : "");
             }
         };
