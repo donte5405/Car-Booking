@@ -34,8 +34,8 @@ Dandelion(async (body) => {
   const date = String(now.getDate()).padStart(2, "0");
   const hours = String(now.getHours()).padStart(2, "0");
   // const minutes = String(now.getMinutes()).padStart(2, "0");
-  //const seconds = String(now.getSeconds()).padStart(2, '0');
-  //const ms = String(now.getMilliseconds()).padStart(3, '0');
+  // const seconds = String(now.getSeconds()).padStart(2, '0');
+  // const ms = String(now.getMilliseconds()).padStart(3, '0');
   body
     .Title("ระบบขอใช้รถออนไลน์")
     .Add(
@@ -268,7 +268,9 @@ Dandelion(async (body) => {
                   new TextArea("Text")
                     .LockWidth(Percent(100))
                     .MinHeight(Px(200))
-                    .PlaceholderText("ระบุความต้องการเพิ่มเติม เช่น ต้องการอุปกรณ์การพยาบาลใด จำนวนเตียง, เปล อื่น ๆ เป็นต้น"),
+                    .PlaceholderText(
+                      "ระบุความต้องการเพิ่มเติม เช่น ต้องการอุปกรณ์การพยาบาลใด จำนวนเตียง, เปล อื่น ๆ เป็นต้น",
+                    ),
                 ),
               new Node("Submit")
                 .Add(
@@ -342,7 +344,6 @@ Dandelion(async (body) => {
             ),
         ),
     );
-  
 
   const showAmbulanceSectionConditionally = (id) => {
     requestAmbulanceCommentNode.hide();
@@ -447,7 +448,7 @@ Dandelion(async (body) => {
     );
   }
 
-  const selectedCar = window.localStorage.getItem("requestCar") || cars[0].uid
+  const selectedCar = window.localStorage.getItem("requestCar") || cars[0].uid;
   requestCar.Options(...options);
   requestCar.InputValue(selectedCar);
   showAmbulanceSectionConditionally(selectedCar);
