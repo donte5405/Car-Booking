@@ -19,7 +19,6 @@ import {
   Px,
   TextArea,
 } from "../dandelion/dandelion.js";
-import { UseDefaultTheme } from "../dandelion/default.css.js";
 import { createNotifyDialog } from "../module/dialog.js";
 import { request } from "../module/google.js";
 import { formatThaiDate, parseThaiDate } from "../module/thaidate.js";
@@ -236,34 +235,34 @@ Dandelion(async (body) => {
           .FlexWrap("wrap")
           .FlexDirection("row")
           .Add(
-            new Node("RequestMileageStart")
-              .Stretch()
-              .MinWidth(Percent(47))
-              .HorLeft()
-              .Add(
-                new Label("Lb", "p")
-                  .Bold()
-                  .HorLeft()
-                  .Text("ลงเลขไมล์เริ่มต้น"),
-                new InputText("#MileageStart")
-                  .Stretch()
-                  .AutocompleteEnabled()
-                  .InputValue(requestData.mileageStart),
-              ),
-            new Node("RequestMileageEnd")
-              .Stretch()
-              .MinWidth(Percent(47))
-              .HorLeft()
-              .Add(
-                new Label("Lb", "p")
-                  .Bold()
-                  .HorLeft()
-                  .Text("ลงเลขไมล์สุดท้าย (เฉพาะเมื่อใช้งานรถเสร็จสิ้น)"),
-                new InputText("#MileageEnd")
-                  .Stretch()
-                  .AutocompleteEnabled()
-                  .InputValue(requestData.mileageEnd),
-              ),
+            // new Node("RequestMileageStart")
+            //   .Stretch()
+            //   .MinWidth(Percent(47))
+            //   .HorLeft()
+            //   .Add(
+            //     new Label("Lb", "p")
+            //       .Bold()
+            //       .HorLeft()
+            //       .Text("ลงเลขไมล์เริ่มต้น"),
+            //     new InputText("#MileageStart")
+            //       .Stretch()
+            //       .AutocompleteEnabled()
+            //       .InputValue(requestData.mileageStart),
+            //   ),
+            // new Node("RequestMileageEnd")
+            //   .Stretch()
+            //   .MinWidth(Percent(47))
+            //   .HorLeft()
+            //   .Add(
+            //     new Label("Lb", "p")
+            //       .Bold()
+            //       .HorLeft()
+            //       .Text("ลงเลขไมล์สุดท้าย (เฉพาะเมื่อใช้งานรถเสร็จสิ้น)"),
+            //     new InputText("#MileageEnd")
+            //       .Stretch()
+            //       .AutocompleteEnabled()
+            //       .InputValue(requestData.mileageEnd),
+            //   ),
             new Node("RequestDriver")
               .Stretch()
               .MinWidth(Percent(47))
@@ -308,8 +307,8 @@ Dandelion(async (body) => {
               to: getNodeById("ToTime", InputText).value,
               driver: getNodeById("Driver", InputText).value,
               allocator: getNodeById("Allocator", InputText).value,
-              mileageStart: getNodeById("MileageStart", InputText).value,
-              mileageEnd: getNodeById("MileageEnd", InputText).value,
+              // mileageStart: getNodeById("MileageStart", InputText).value,
+              // mileageEnd: getNodeById("MileageEnd", InputText).value,
             };
 
             if (!body.id.trim()) {
@@ -336,12 +335,6 @@ Dandelion(async (body) => {
               );
               return;
             }
-            if (!body.mileageStart.trim()) {
-              createNotifyDialog(
-                "❌ ต้องระบุเลขไมล์เริ่มต้น",
-              );
-              return;
-            }
 
             try {
               formatThaiDate(parseThaiDate(body.from));
@@ -357,36 +350,42 @@ Dandelion(async (body) => {
               return;
             }
 
-            const mileageNumStart = Number(body.mileageStart.trim());
-            const mileageNumEnd = Number(body.mileageEnd.trim());
-            console.log(selectedCarData);
-            const carMileageNum = selectedCarData.mileage;
-            if (isNaN(mileageNumStart)) {
-              createNotifyDialog(
-                "❌ เลขไมล์ต้องเป็นตัวเลข",
-              );
-              return;
-            }
-            if (isNaN(carMileageNum)) {
-              createNotifyDialog(
-                "❌ รอข้อมูลรถโหลดเสร็จก่อน",
-              );
-              return;
-            }
-            if (mileageNumStart < carMileageNum) {
-              createNotifyDialog(
-                "❌ เลขไมล์ห้ามต่ำกว่าที่เคยบันทึกไว้",
-              );
-              return;
-            }
-            if (mileageNumEnd) {
-              if (mileageNumEnd < carMileageNum) {
-                createNotifyDialog(
-                  "❌ เลขไมล์เมื่อใช้งานรถเสร็จสิ้น ห้ามต่ำกว่าที่เคยบันทึกไว้",
-                );
-                return;
-              }
-            }
+            // if (!body.mileageStart.trim()) {
+            //   createNotifyDialog(
+            //     "❌ ต้องระบุเลขไมล์เริ่มต้น",
+            //   );
+            //   return;
+            // }
+            // const mileageNumStart = Number(body.mileageStart.trim());
+            // const mileageNumEnd = Number(body.mileageEnd.trim());
+            // console.log(selectedCarData);
+            // const carMileageNum = selectedCarData.mileage;
+            // if (isNaN(mileageNumStart)) {
+            //   createNotifyDialog(
+            //     "❌ เลขไมล์ต้องเป็นตัวเลข",
+            //   );
+            //   return;
+            // }
+            // if (isNaN(carMileageNum)) {
+            //   createNotifyDialog(
+            //     "❌ รอข้อมูลรถโหลดเสร็จก่อน",
+            //   );
+            //   return;
+            // }
+            // if (mileageNumStart < carMileageNum) {
+            //   createNotifyDialog(
+            //     "❌ เลขไมล์ห้ามต่ำกว่าที่เคยบันทึกไว้",
+            //   );
+            //   return;
+            // }
+            // if (mileageNumEnd) {
+            //   if (mileageNumEnd < carMileageNum) {
+            //     createNotifyDialog(
+            //       "❌ เลขไมล์เมื่อใช้งานรถเสร็จสิ้น ห้ามต่ำกว่าที่เคยบันทึกไว้",
+            //     );
+            //     return;
+            //   }
+            // }
 
             // Submit request.
             const progress = createNotifyDialog(
