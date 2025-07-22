@@ -73,6 +73,7 @@ Dandelion(async (body) => {
             ["urgent", "เร่งด่วน", Px(64)],
             ["rush", "วิ่งทำเวลา", Px(96)],
             ["reasons", "เหตุผล", Px(256)],
+            ["carName", "รถยนต์", Px(128)],
             ["participants", "ผู้ร่วมเดินทาง", Px(128)],
             ["time", "เวลาที่ร้องขอ", Px(154)],
           )
