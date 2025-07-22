@@ -25,15 +25,15 @@ import { checkVersion } from "../module/ver.js";
 
 UseDefaultTheme();
 
-Dandelion((body) => {
+Dandelion(async (body) => {
   checkVersion(false);
 
   const now = new Date();
   const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, '0');
-  const date = String(now.getDate()).padStart(2, '0');
-  const hours = String(now.getHours()).padStart(2, '0');
-  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const date = String(now.getDate()).padStart(2, "0");
+  const hours = String(now.getHours()).padStart(2, "0");
+  // const minutes = String(now.getMinutes()).padStart(2, "0");
   //const seconds = String(now.getSeconds()).padStart(2, '0');
   //const ms = String(now.getMilliseconds()).padStart(3, '0');
   body
@@ -93,110 +93,49 @@ Dandelion((body) => {
                     .Text("แผนกของผู้ที่ร้องขอ"),
                   new DropDownMenu("Text")
                     .On("change", (node) => {
-                      window.localStorage.setItem("requesterDepartment", node.value);
-                      console.log("item set");
+                      window.localStorage.setItem(
+                        "requesterDepartment",
+                        node.value,
+                      );
                     })
                     .Options(
-                      new DropDownOption("แผนกห้องฉุกเฉิน", "ERD - แผนกห้องฉุกเฉิน"),
-                      new DropDownOption("แผนกรังสีวินิจฉัย", "RAD - แผนกรังสีวินิจฉัย"),
-                      new DropDownOption(
-                        "แผนกตรวจสุขภาพ",
-                        "HCC - แผนกตรวจสุขภาพ",
-                      ),
-                      new DropDownOption("แผนกการเงิน", "OIC - แผนกการเงิน"),
-                      new DropDownOption("แผนกเภสัชกรรม", "PHD - แผนกเภสัชกรรม"),
-                      new DropDownOption("แผนกผู้ป่วยนอก", "OPD - แผนกผู้ป่วยนอก"),
-                      new DropDownOption(
-                        "แผนกเด็ก (กุมารเวช)",
-                        "PED - แผนกเด็ก (กุมารเวช)",
-                      ),
-                      new DropDownOption(
-                        "แผนกบริการส่วนหน้า (Regis)",
-                        "CRM - แผนกบริการส่วนหน้า (Regis)",
-                      ),
-                      new DropDownOption(
-                        "แผนกประกันและสิทธิประโยชน์",
-                        "URD - แผนกประกันและสิทธิประโยชน์",
-                      ),
-                      new DropDownOption(
-                        "แผนกเคลื่อนย้ายผู้ป่วย (Porter)",
-                        "PTD - แผนกเคลื่อนย้ายผู้ป่วย (Porter)",
-                      ),
-                      new DropDownOption("แผนกคลังยา", "INV - แผนกคลังยา"),
-                      new DropDownOption(
-                        "แผนกคลังเวชภัณฑ์ปลอดเชื้อ",
-                        "CSD - แผนกคลังเวชภัณฑ์ปลอดเชื้อ",
-                      ),
-                      new DropDownOption(
-                        "แผนกหอผู้ป่วยวิกฤต",
-                        "ICU - แผนกหอผู้ป่วยวิกฤต",
-                      ),
-                      new DropDownOption(
-                        "แผนกห้องคลอดและทารกแรกเกิด",
-                        "LRN - แผนกห้องคลอดและทารกแรกเกิด",
-                      ),
-                      new DropDownOption("แผนกห้องผ่าตัด", "ORD - แผนกห้องผ่าตัด"),
-                      new DropDownOption(
-                        "แผนกศูนย์ปฏิบัติการสวนหลอดเลือดหัวใจ",
-                        "CLD - แผนกศูนย์ปฏิบัติการสวนหลอดเลือดหัวใจ",
-                      ),
-                      new DropDownOption("แผนกโภชนาการ", "DND - แผนกโภชนาการ"),
-                      new DropDownOption(
-                        "แผนกห้องปฏิบัติการชันสูตร",
-                        "LBD - แผนกห้องปฏิบัติการชันสูตร",
-                      ),
-                      new DropDownOption(
-                        "แผนกเวชศาสตร์ฟื้นฟูและกายภาพบำบัด",
-                        "RTD - แผนกเวชศาสตร์ฟื้นฟูและกายภาพบำบัด",
-                      ),
-                      new DropDownOption(
-                        "แผนกเทคโนโลยีสารสนเทศ",
-                        "ITD - แผนกเทคโนโลยีสารสนเทศ",
-                      ),
-                      new DropDownOption("แผนกบัญชี", "ACC - แผนกบัญชี"),
-                      new DropDownOption(
-                        "แผนกสื่อสารการตลาด",
-                        "MKD - แผนกสื่อสารการตลาด",
-                      ),
-                      new DropDownOption("สำนักผู้ตรวจการ", "SUP - สำนักผู้ตรวจการ"),
-                      new DropDownOption(
-                        "แผนกทรัพยากรบุคคล",
-                        "HRD - แผนกทรัพยากรบุคคล",
-                      ),
-                      new DropDownOption("สำนักเลขานุการ", "SEC - สำนักเลขานุการ"),
-                      new DropDownOption("สำนักผู้บริหาร", "EXC - สำนักผู้บริหาร"),
-                      new DropDownOption("แผนกจัดซื้อ", "PUR - แผนกจัดซื้อ"),
-                      new DropDownOption(
-                        "แผนกศูนย์คุณภาพและควบคุมเอกสาร",
-                        "QMD - แผนกศูนย์คุณภาพและควบคุมเอกสาร",
-                      ),
-                      new DropDownOption(
-                        "ฝ่ายสนับสนุนทั่วไป",
-                        "GSD - ฝ่ายสนับสนุนทั่วไป",
-                      ),
-                      new DropDownOption(
-                        "แผนกเครื่องมือแพทย์",
-                        "MED - แผนกเครื่องมือแพทย์",
-                      ),
-                      new DropDownOption(
-                        "แผนกหอผู้ป่วยใน ชั้น 5",
-                        "WA5 - แผนกหอผู้ป่วยใน ชั้น 5",
-                      ),
-                      new DropDownOption(
-                        "แผนกหอผู้ป่วยใน ชั้น 6",
-                        "WA6 - แผนกหอผู้ป่วยใน ชั้น 6",
-                      ),
-                      new DropDownOption(
-                        "สำนักผู้อำนวยการโรงพยาบาล",
-                        "MAO - สำนักผู้อำนวยการโรงพยาบาล",
-                      ),
-                      new DropDownOption(
-                        "ผู้อำนวยการโรงพยาบาล",
-                        "ผู้อำนวยการโรงพยาบาล",
-                      ),
+                      new DropDownOption("ERD - แผนกห้องฉุกเฉิน"),
+                      new DropDownOption("RAD - แผนกรังสีวินิจฉัย"),
+                      new DropDownOption("HCC - แผนกตรวจสุขภาพ"),
+                      new DropDownOption("OIC - แผนกการเงิน"),
+                      new DropDownOption("PHD - แผนกเภสัชกรรม"),
+                      new DropDownOption("OPD - แผนกผู้ป่วยนอก"),
+                      new DropDownOption("PED - แผนกเด็ก (กุมารเวช)"),
+                      new DropDownOption("CRM - แผนกบริการส่วนหน้า (Regis)"),
+                      new DropDownOption("URD - แผนกประกันและสิทธิประโยชน์"),
+                      new DropDownOption("PTD - แผนกเคลื่อนย้ายผู้ป่วย (Porter)"),
+                      new DropDownOption("INV - แผนกคลังยา"),
+                      new DropDownOption("CSD - แผนกคลังเวชภัณฑ์ปลอดเชื้อ"),
+                      new DropDownOption("ICU - แผนกหอผู้ป่วยวิกฤต"),
+                      new DropDownOption("LRN - แผนกห้องคลอดและทารกแรกเกิด"),
+                      new DropDownOption("ORD - แผนกห้องผ่าตัด"),
+                      // new DropDownOption("CLD - แผนกศูนย์ปฏิบัติการสวนหลอดเลือดหัวใจ"),
+                      // new DropDownOption("DND - แผนกโภชนาการ"),
+                      new DropDownOption("LBD - แผนกห้องปฏิบัติการชันสูตร"),
+                      new DropDownOption("RTD - แผนกเวชศาสตร์ฟื้นฟูและกายภาพบำบัด"),
+                      new DropDownOption("ITD - แผนกเทคโนโลยีสารสนเทศ"),
+                      new DropDownOption("ACC - แผนกบัญชี"),
+                      new DropDownOption("MKD - แผนกสื่อสารการตลาด"),
+                      new DropDownOption("SUP - สำนักผู้ตรวจการ"),
+                      new DropDownOption("HRD - แผนกทรัพยากรบุคคล"),
+                      new DropDownOption("SEC - สำนักเลขานุการ"),
+                      new DropDownOption("EXC - สำนักผู้บริหาร"),
+                      new DropDownOption("PUR - แผนกจัดซื้อ"),
+                      new DropDownOption("QMD - แผนกศูนย์คุณภาพและควบคุมเอกสาร"),
+                      new DropDownOption("GSD - ฝ่ายสนับสนุนทั่วไป"),
+                      new DropDownOption("MED - แผนกเครื่องมือแพทย์"),
+                      new DropDownOption("WA5 - แผนกหอผู้ป่วยใน ชั้น 5"),
+                      new DropDownOption("WA6 - แผนกหอผู้ป่วยใน ชั้น 6"),
+                      new DropDownOption("MAO - สำนักผู้อำนวยการโรงพยาบาล"),
+                      new DropDownOption("ผู้อำนวยการโรงพยาบาล"),
                     )
                     .InputValue(
-                      window.localStorage.getItem("requesterDepartment") || ""
+                      window.localStorage.getItem("requesterDepartment") || "",
                     ),
                 ),
               new Node("RequesterReasons")
@@ -298,11 +237,49 @@ Dandelion((body) => {
                         ),
                     ),
                 ),
+              new Node("RequestCar")
+                .FlexContainer()
+                .Add(
+                  new Label("Lb", "p")
+                    .Bold()
+                    .HorLeft()
+                    .Text("รถที่ต้องการใช้"),
+                  new DropDownMenu("Text")
+                    .On("change", (node) => {
+                      window.localStorage.setItem("requestCar", node.value);
+                      showAmbulanceSectionConditionally(node.value);
+                    })
+                    .Options(
+                      new DropDownOption(
+                        "loading",
+                        "⏳ กำลังโหลดรายการรถ รอสักครู่...",
+                      ),
+                    ),
+                ),
+              new Node("RequestAmbulanceComment")
+                .Hidden()
+                .Add(
+                  new Label("Lb", "p")
+                    .HorLeft()
+                    .Bold()
+                    .Text(
+                      "ความต้องการเพิ่มเติม (สำหรับรถ Ambulance)",
+                    ),
+                  new TextArea("Text")
+                    .LockWidth(Percent(100))
+                    .MinHeight(Px(200))
+                    .PlaceholderText("ระบุความต้องการเพิ่มเติม เช่น ต้องการอุปกรณ์การพยาบาลใด จำนวนเตียง, เปล อื่น ๆ เป็นต้น"),
+                ),
               new Node("Submit")
                 .Add(
                   new Button("Button")
                     .Text("ส่งคำร้องขอ")
                     .OnClick(async (node) => {
+                      if (!loaded) {
+                        createNotifyDialog("เว็บค้าง โปรดโหลดเว็บใหม่แล้วลองอีกครั้ง");
+                        return;
+                      }
+
                       // Save frequently used value.
                       window.localStorage.setItem(
                         "requesterName",
@@ -311,6 +288,10 @@ Dandelion((body) => {
                       window.localStorage.setItem(
                         "requesterEmail",
                         requesterEmail.value,
+                      );
+                      window.localStorage.setItem(
+                        "requestCar",
+                        requestCar.value,
                       );
 
                       if (
@@ -329,7 +310,7 @@ Dandelion((body) => {
                       const d = createNotifyDialog(
                         "⏳ กำลังส่งข้อมูล โปรดรอสักครู่...",
                       );
-                      const res = await request({
+                      const body = {
                         method: "request",
                         requesterName: requesterName.value,
                         requesterEmail: requesterEmail.value,
@@ -342,7 +323,12 @@ Dandelion((body) => {
                         requestFromTime: requestFromTime.value,
                         requestToDate: requestToDate.value,
                         requestToTime: requestToTime.value,
-                      });
+                        requestCar: requestCar.value,
+                        requestAmbulanceComment: requestAmbulanceComment.value,
+                      };
+                      // console.log(body);
+                      // return;
+                      const res = await request(body);
                       if (d.parent) {
                         d.detach();
                       }
@@ -356,6 +342,20 @@ Dandelion((body) => {
             ),
         ),
     );
+  
+
+  const showAmbulanceSectionConditionally = (id) => {
+    requestAmbulanceCommentNode.hide();
+    for (const car of cars) {
+      if (car.id !== id) {
+        continue;
+      }
+      if (car.isAmbulance) {
+        requestAmbulanceCommentNode.show();
+      }
+      return;
+    }
+  };
 
   const main = getNodeById("Main", Node);
   const requesterName = main.getNode(
@@ -402,4 +402,54 @@ Dandelion((body) => {
     "RequestTo/DateTime/Time/Text",
     InputTime,
   );
+  const requestCar = main.getNode(
+    "RequestCar/Text",
+    DropDownMenu,
+  );
+  const requestAmbulanceCommentNode = main.getNode(
+    "RequestAmbulanceComment",
+    Node,
+  );
+  const requestAmbulanceComment = main.getNode(
+    "RequestAmbulanceComment/Text",
+    TextArea,
+  );
+
+  // Load car list
+  let loaded = false;
+  let availableCars = [];
+  let unavailableCars = [];
+  const res = await request({
+    method: "cars",
+    id: "",
+  });
+
+  if (!res.success) {
+    if (res.error === "unauthorised") {
+      window.location.href = "../auth/";
+      return;
+    }
+    createNotifyDialog("❌ การโหลดล้มเหลว: " + res.error);
+    return;
+  }
+
+  const options = [];
+  availableCars = res.success.available;
+  unavailableCars = res.success.unavailable;
+  const cars = [...availableCars, ...unavailableCars];
+
+  for (const car of cars) {
+    options.push(
+      new DropDownOption(
+        car.id,
+        car.name + " (" + car.licenseId + ")",
+      ),
+    );
+  }
+
+  const selectedCar = window.localStorage.getItem("requestCar") || cars[0].uid
+  requestCar.Options(...options);
+  requestCar.InputValue(selectedCar);
+  showAmbulanceSectionConditionally(selectedCar);
+  loaded = true;
 });
