@@ -3,6 +3,7 @@ import { buildBody } from "../body.js";
 import {
   BackgroundColor,
   ElementState,
+  ForegroundColor,
   MixColors,
   Style,
 } from "../dandelion/dandelion.css.js";
@@ -24,8 +25,7 @@ import { request } from "../module/google.js";
 import { formatThaiDate, parseThaiDate } from "../module/thaidate.js";
 
 function generateCarText(car) {
-  return "🚗 " + car.licenseId + " " + car.name + " (เลขไมล์ปัจจุบัน " +
-    String(car.mileage) + ")";
+  return "🚗 " + car.licenseId + " " + car.name; // + " (เลขไมล์ปัจจุบัน " + String(car.mileage) + ")";
 }
 
 Dandelion(async (body) => {
@@ -187,31 +187,37 @@ Dandelion(async (body) => {
                   .HorLeft()
                   .Text(requestData.reasons),
               ),
-            new Node("RequestFrom")
-              .MinWidth(Percent(32))
-              .HorLeft()
+            new Node("#IsRequestUrgent")
               .Add(
-                new Label("Lb", "p")
-                  .Bold()
-                  .HorLeft()
-                  .Text("เวลาเริ่มใช้รถ"),
-                new InputText("#FromTime")
-                  .Stretch()
-                  .AutocompleteEnabled()
-                  .InputValue(requestData.from),
+                new Label("Lb", "h1")
+                  .Class(Style(
+                    new ForegroundColor("red"),
+                  ))
+                  .Text("เร่งด่วน"),
               ),
-            new Node("RequestTo")
-              .MinWidth(Percent(32))
-              .HorLeft()
+            new Node("#IsRequestRush")
+              .Add(
+                new Label("Lb", "h1")
+                  .Class(Style(
+                    new ForegroundColor("red"),
+                  ))
+                  .Text("วิ่งทำเวลา"),
+              ),
+            new Node("#AmbulanceComment")
               .Add(
                 new Label("Lb", "p")
+                  .Class(Style(
+                    new ForegroundColor("red"),
+                  ))
                   .Bold()
                   .HorLeft()
-                  .Text("เวลาสิ้นสุดการใช้รถ"),
-                new InputText("#ToTime")
-                  .Stretch()
-                  .AutocompleteEnabled()
-                  .InputValue(requestData.to),
+                  .Text("สิ่งที่ขอเพิ่มเติม (Ambulance)"),
+                new Label("Lb2", "p")
+                  .Class(Style(
+                    new ForegroundColor("red"),
+                  ))
+                  .HorLeft()
+                  .Text(requestData.requestAmbulanceComment),
               ),
           ),
         new Node("RequestCar")
@@ -263,6 +269,34 @@ Dandelion(async (body) => {
             //       .AutocompleteEnabled()
             //       .InputValue(requestData.mileageEnd),
             //   ),
+            new Node("RequestFrom")
+              .Stretch()
+              .MinWidth(Percent(32))
+              .HorLeft()
+              .Add(
+                new Label("Lb", "p")
+                  .Bold()
+                  .HorLeft()
+                  .Text("เวลาเริ่มใช้รถ"),
+                new InputText("#FromTime")
+                  .Stretch()
+                  .AutocompleteEnabled()
+                  .InputValue(requestData.from),
+              ),
+            new Node("RequestTo")
+              .Stretch()
+              .MinWidth(Percent(32))
+              .HorLeft()
+              .Add(
+                new Label("Lb", "p")
+                  .Bold()
+                  .HorLeft()
+                  .Text("เวลาสิ้นสุดการใช้รถ"),
+                new InputText("#ToTime")
+                  .Stretch()
+                  .AutocompleteEnabled()
+                  .InputValue(requestData.to),
+              ),
             new Node("RequestDriver")
               .Stretch()
               .MinWidth(Percent(47))
@@ -514,4 +548,17 @@ Dandelion(async (body) => {
           ),
       ),
   );
+
+  if (!requestData.isUrgent) {
+    getNodeById("IsRequestUrgent", Node).hide();
+  }
+
+  if (!requestData.isRush) {
+    getNodeById("IsRequestRush", Node).hide();
+  }
+
+  // Hide Ambulance if not exist
+  if (!requestData.requestAmbulanceComment) {
+    getNodeById("AmbulanceComment", Node).hide();
+  }
 });
