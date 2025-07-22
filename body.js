@@ -115,11 +115,11 @@ export function buildBody(body) {
           node
             //.MaxWidth(Percent(100))
             .ContentClipping("auto")
+            .Height(Percent(97))
             .Add(
               new Container("#Content")
                 .Panel()
                 .ContentClipping("auto")
-                .Height(Percent(97))
                 .HorCenter()
                 .Add(
                   // TODO: Drop it here
