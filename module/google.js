@@ -1,5 +1,6 @@
 //@ts-check
-const googleAppUrl = "https://script.google.com/macros/s/AKfycbxfKPHkqLbZiafTyyL9ym0dL-FAqJbrkZBmI5HUo6qKXpWz-PtKqRh9JOdWh80SnC4h/exec";
+const googleAppUrl =
+    "https://script.google.com/macros/s/AKfycbxfKPHkqLbZiafTyyL9ym0dL-FAqJbrkZBmI5HUo6qKXpWz-PtKqRh9JOdWh80SnC4h/exec";
 
 /**
  * Make a request.

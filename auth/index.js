@@ -42,7 +42,8 @@ Dandelion(async (body) => {
   const params = new URLSearchParams(window.location.search);
   const res = await request({
     method: "auth",
-    token: params.get("token") || window.localStorage.getItem("token") || undefined,
+    token: params.get("token") || window.localStorage.getItem("token") ||
+      undefined,
   });
   console.log(res);
   if (res.success) {
@@ -50,6 +51,8 @@ Dandelion(async (body) => {
     window.localStorage.setItem("session", res.session);
     window.location.href = "../requests/";
   } else {
-    getNodeById("Status", Label).Text("❌ เข้าสู่ระบบล้มเหลว โปรดเข้าสู่ระบบจาก Email");
+    getNodeById("Status", Label).Text(
+      "❌ เข้าสู่ระบบล้มเหลว โปรดเข้าสู่ระบบจาก Email",
+    );
   }
 });

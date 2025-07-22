@@ -459,7 +459,10 @@ Dandelion(async (body) => {
               .Text("ยกเลิกคำร้องขอ"),
             new Label()
               .HorLeft()
-              .Text("เหตุผลที่ต้องการยกเลิกคำขอ" + (requestData.name ? "จาก " + requestData.name : "")),
+              .Text(
+                "เหตุผลที่ต้องการยกเลิกคำขอ" +
+                  (requestData.name ? "จาก " + requestData.name : ""),
+              ),
             new TextArea("#CancelReasons")
               .Stretch(),
             new Node()
@@ -474,12 +477,13 @@ Dandelion(async (body) => {
                   .MinWidth(Px(128))
                   .Class(cancelButtonTheme)
                   .OnClick(async () => {
-                    const reasons = getNodeById("CancelReasons", TextArea).value;
+                    const reasons =
+                      getNodeById("CancelReasons", TextArea).value;
                     if (!reasons.trim()) {
                       createNotifyDialog("❌ กรุณาระบุเหตุกผลการยกเลิกคำขอ");
                       return;
                     }
-                    
+
                     getNodeById("CancelRequest", Node).hide();
                     const progress = createNotifyDialog(
                       "⏳ กำลังบันทึกการยกเลิกคำขอ . . .",
@@ -490,16 +494,16 @@ Dandelion(async (body) => {
                       cancel: true,
                       reasons,
                     });
-        
+
                     if (progress.parent) {
                       progress.detach();
                     }
-        
+
                     if (!res.success) {
                       createNotifyDialog("❌ ผิดพลาด: " + res.error);
                       return;
                     }
-        
+
                     createNotifyDialog("✅ ดำเนินการยกเลิกเรียบร้อยแล้ว", () => {
                       // Return to request list screen.
                       window.location.href = "../requests";

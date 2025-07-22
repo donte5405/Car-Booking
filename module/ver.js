@@ -2,7 +2,7 @@
 import { createNotifyDialog } from "./dialog.js";
 
 /**
- * @param {boolean} isPorter 
+ * @param {boolean} isPorter
  */
 export function checkVersion(isPorter) {
     if (window.location.href.indexOf("https://") === 0) {
@@ -18,7 +18,8 @@ export function checkVersion(isPorter) {
             }
             if (current != version) {
                 createNotifyDialog("กำลังอัปเดตไปเวอร์ชันใหม่ . . .");
-                window.location.href = "../../build-" + version + "/" + (isPorter ? "?target=porter" : "");
+                window.location.href = "../../build-" + version + "/" +
+                    (isPorter ? "?target=porter" : "");
             }
         };
         setTimeout(checkVer, 1000);

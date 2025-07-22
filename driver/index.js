@@ -19,7 +19,7 @@ UseDefaultTheme();
 
 Dandelion(async (body) => {
   const { title, sidebar, topNavLeft, topNavRight, content } = buildBody(body);
-  
+
   let driverData = {};
   const storageData = window.sessionStorage.getItem("driverData");
   if (storageData) {
@@ -27,7 +27,7 @@ Dandelion(async (body) => {
   }
   const isNew = driverData.id ? false : true;
   const strTitle = (isNew ? "เพิ่ม" : "แก้ไข") + "ข้อมูลพลขับ";
-  
+
   title.Text(strTitle);
   content.Add(
     new Node("Title")

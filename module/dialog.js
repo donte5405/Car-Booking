@@ -2,7 +2,6 @@
 
 import {
   Body,
-  BodyNode,
   Button,
   Container,
   DialogBody,
