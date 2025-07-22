@@ -19,49 +19,44 @@ UseDefaultTheme();
 
 Dandelion(async (body) => {
   const { title, sidebar, topNavLeft, topNavRight, content } = buildBody(body);
-  title.Text("จัดการรถยนต์ส่วนกลาง");
-
-  let carData = {};
-  const storageData = window.sessionStorage.getItem("carData");
+  
+  let driverData = {};
+  const storageData = window.sessionStorage.getItem("driverData");
   if (storageData) {
-    carData = JSON.parse(storageData);
+    driverData = JSON.parse(storageData);
   }
-
+  const isNew = driverData.id ? false : true;
+  const strTitle = (isNew ? "เพิ่ม" : "แก้ไข") + "ข้อมูลพลขับ";
+  
+  title.Text(strTitle);
   content.Add(
     new Node("Title")
       .HorCenter()
       .Add(
         new Label("Lb", "h2")
-          .Text("จัดการรถยนต์ส่วนกลาง"),
+          .Text(strTitle),
       ),
-    new Node("CarLicenseId")
+    new Node("DriverName")
       .HorLeft()
       .Add(
         new Label()
-          .Text("ป้ายทะเบียน"),
-        new InputText("#LicenseId")
-          .Stretch()
-          .InputValue(carData.licenseId || ""),
-      ),
-    new Node("CarMileage")
-      .HorLeft()
-      .Add(
-        new Label()
-          .Text("เลขไมล์ที่บันทึกไว้ล่าสุด"),
-        new InputText("#Mileage")
-          .Stretch()
-          .InputValue(carData.mileage || ""),
-      ),
-    new Node("CarName")
-      .HorLeft()
-      .Add(
-        new Label()
-          .Text("ชื่อ และข้อมูลรายละเอียดรถ"),
+          .Text("ชื่อ - นามสกุลพลขับ"),
         new TextArea("#Name")
           .Stretch()
           .LockWidth(Percent(100))
           .MinHeight(Px(128))
-          .Text(carData.name || ""),
+          .Text(driverData.name || ""),
+      ),
+    new Node("DriverEmail")
+      .HorLeft()
+      .Add(
+        new Label()
+          .Text("ที่อยู่ Email"),
+        new TextArea("#Email")
+          .Stretch()
+          .LockWidth(Percent(100))
+          .MinHeight(Px(128))
+          .Text(driverData.email || ""),
       ),
     new Node("Submit")
       .HorRight()
@@ -71,11 +66,10 @@ Dandelion(async (body) => {
           .OnClick(async () => {
             const process = createNotifyDialog("กำลังบันทึกข้อมูล . . .");
             const res = await request({
-              method: "car",
-              id: carData.id || "",
+              method: "driver",
+              id: driverData.id || "",
               name: getNodeById("Name", InputText).value || "",
-              mileage: getNodeById("Mileage", InputText).value,
-              licenseId: getNodeById("LicenseId", InputText).value,
+              email: getNodeById("Email", InputText).value || "",
             });
 
             if (process.parent) {
@@ -89,7 +83,7 @@ Dandelion(async (body) => {
 
             createNotifyDialog(
               "✅ บันทึกรายการเรียบร้อยแล้ว",
-              () => window.location.href = "../cars",
+              () => window.location.href = "../drivers",
             );
           }),
       ),
