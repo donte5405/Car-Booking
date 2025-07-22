@@ -4,6 +4,7 @@ import {
   Button,
   Dandelion,
   getNodeById,
+  InputCheckBox,
   InputText,
   Label,
   Node,
@@ -63,6 +64,13 @@ Dandelion(async (body) => {
           .MinHeight(Px(128))
           .Text(carData.name || ""),
       ),
+    new Node("IsCarAmbulance")
+      .FlexContainer()
+      .Add(
+        new InputCheckBox("#IsCarAmbulance")
+          .Checked(carData.isAmbulance),
+        new Label().Text("เป็นรถ Ambulance"),
+      ),
     new Node("Submit")
       .HorRight()
       .Add(
@@ -76,6 +84,7 @@ Dandelion(async (body) => {
               name: getNodeById("Name", InputText).value || "",
               mileage: getNodeById("Mileage", InputText).value,
               licenseId: getNodeById("LicenseId", InputText).value,
+              isAmbulance: getNodeById("IsCarAmbulance", InputCheckBox).isChecked,
             });
 
             if (process.parent) {
