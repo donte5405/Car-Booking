@@ -448,7 +448,7 @@ Dandelion(async (body) => {
     );
   }
 
-  const selectedCar = window.localStorage.getItem("requestCar") || cars[0].uid;
+  const selectedCar = window.localStorage.getItem("requestCar") || cars[0].id;
   requestCar.Options(...options);
   requestCar.InputValue(selectedCar);
   showAmbulanceSectionConditionally(selectedCar);
