@@ -108,6 +108,7 @@ Dandelion(async (body) => {
         new HorizontalLine(),
         new Label("LbTitle2", "h2")
           .Text("🗑️ รายการคำร้องขอที่ผ่านมา"),
+        new Label().Text("อัปเดตครั้งล่าสุดเมื่อ " + formatThaiDate()),
         new Label().Italic().Text(
           "รวมรายการคำขอที่ได้ดำเนินการเสร็จสิ้นไปแล้ว คุณยังสามารถจัดสรรเพื่อให้ข้อมูลสัมพันธ์กับที่เกิดขึ้นจริงได้",
         ),
