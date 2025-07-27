@@ -17,7 +17,7 @@ import { formatThaiDate, parseThaiDate } from "../module/thaidate.js";
 Dandelion(async (body) => {
   const { title, sidebar, topNavLeft, topNavRight, content } = buildBody(body);
   const audio = new AudioNode();
-  audio.Source("../ringtone.mp3");
+  audio.Source("../res/ringtone.mp3");
   audio.hide();
 
   // Clear old re requestData.
