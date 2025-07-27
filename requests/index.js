@@ -1,6 +1,7 @@
 //@ts-check
 import { buildBody } from "../body.js";
 import {
+  AudioNode,
   Button,
   Dandelion,
   HorizontalLine,
@@ -15,6 +16,9 @@ import { formatThaiDate, parseThaiDate } from "../module/thaidate.js";
 
 Dandelion(async (body) => {
   const { title, sidebar, topNavLeft, topNavRight, content } = buildBody(body);
+  const audio = new AudioNode();
+  audio.Source("../ringtone.mp3");
+  audio.hide();
 
   // Clear old re requestData.
   window.sessionStorage.removeItem("requestData");
@@ -41,6 +45,34 @@ Dandelion(async (body) => {
     ["time", "เวลาที่ร้องขอ", Px(154)],
   ];
 
+  let loaded = false;
+  let currentRequests = [];
+  const hasNewRequests = (newRequests) => {
+    const oldRequests = currentRequests;
+    currentRequests = [...newRequests]; // Full copy to prevent missing arrays
+
+    if (!loaded) {
+      loaded = true;
+      return; // Don't notify when launching first time
+    }
+
+    let foundCount = 0;
+    for (const newRequest of newRequests) {
+      for (const oldRequest of oldRequests) {
+        if (oldRequest.id === newRequest.id) {
+          foundCount ++;
+          break;
+        }
+      }
+    }
+
+    
+    if (foundCount != newRequests.length) {
+      console.log("Notification sound");
+      audio.play();
+    }
+  };
+
   const func = async () => {
     const res = await request({
       method: "requests",
@@ -56,6 +88,7 @@ Dandelion(async (body) => {
     }
 
     const requests = res.success;
+    hasNewRequests(requests);
     for (const row of requests) {
       row.approveButton = row.approved !== "❌"
         ? new Button().Text("จัดสรร")
@@ -79,7 +112,7 @@ Dandelion(async (body) => {
       i++;
     }
 
-    content.Set();
+    content.Set(audio);
     if (requests.length) {
       content.Add(
         new Label("LbTitle", "h2")
