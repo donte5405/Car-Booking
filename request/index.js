@@ -13,6 +13,8 @@ import {
   InputText,
   InputTime,
   Label,
+  List,
+  ListItem,
   Node,
   Percent,
   Px,
@@ -110,7 +112,7 @@ Dandelion(async (body) => {
                       new DropDownOption("URD - แผนกประกันและสิทธิประโยชน์"),
                       new DropDownOption("PTD - แผนกเคลื่อนย้ายผู้ป่วย (Porter)"),
                       new DropDownOption("INV - แผนกคลังยา"),
-                      new DropDownOption("CSD - แผนกคลังเวชภัณฑ์ปลอดเชื้อ"),
+                      // new DropDownOption("CSD - แผนกคลังเวชภัณฑ์ปลอดเชื้อ"),
                       new DropDownOption("ICU - แผนกหอผู้ป่วยวิกฤต"),
                       new DropDownOption("LRN - แผนกห้องคลอดและทารกแรกเกิด"),
                       new DropDownOption("ORD - แผนกห้องผ่าตัด"),
@@ -135,7 +137,8 @@ Dandelion(async (body) => {
                       new DropDownOption("ผู้อำนวยการโรงพยาบาล"),
                     )
                     .InputValue(
-                      window.localStorage.getItem("requesterDepartment") || "",
+                      window.localStorage.getItem("requesterDepartment") ||
+                        "ERD - แผนกห้องฉุกเฉิน",
                     ),
                 ),
               new Node("RequesterReasons")
@@ -238,7 +241,6 @@ Dandelion(async (body) => {
                     ),
                 ),
               new Node("RequestCar")
-                .FlexContainer()
                 .Add(
                   new Label("Lb", "p")
                     .Bold()
@@ -270,6 +272,77 @@ Dandelion(async (body) => {
                     .MinHeight(Px(200))
                     .PlaceholderText(
                       "ระบุความต้องการเพิ่มเติม เช่น ต้องการอุปกรณ์การพยาบาลใด จำนวนเตียง, เปล อื่น ๆ เป็นต้น",
+                    ),
+                ),
+              new Node("Approver")
+                .Add(
+                  new Label("Lb", "p")
+                    .Bold()
+                    .HorLeft()
+                    .Text("เลือกผู้อนุมัติ"),
+                  new DropDownMenu("Text")
+                    .On("change", (node) => {
+                      window.localStorage.setItem(
+                        "approver",
+                        node.value,
+                      );
+                      if (node.value === "hod") {
+                        altApproverReasonsNode.hide();
+                      } else {
+                        altApproverReasonsNode.show();
+                      }
+                    })
+                    .Options(
+                      new DropDownOption("hod", "หัวหน้า / ผู้บังคับบัญชา"),
+                      new DropDownOption("sup", "ผู้ตรวจการ (Supervisor)"),
+                      new DropDownOption("porter", "หัวหน้าแผนกเคลื่อนย้ายผู้ป่วย"),
+                    )
+                    .InputValue(
+                      window.localStorage.getItem("approver") || "hod",
+                    ),
+                ),
+              new Node("AltApproverReasons")
+                .Hidden()
+                .Add(
+                  new Label("Lb", "p")
+                    .HorLeft()
+                    .Bold()
+                    .Text(
+                      "เหตุผลที่ต้องให้ผู้อนุมัติเป็นผู้อื่นที่ไม่ใช่ผู้บังคับบัญชา",
+                    ),
+                  new TextArea("Text")
+                    .LockWidth(Percent(100))
+                    .MinHeight(Px(200))
+                    .PlaceholderText(
+                      "ระบุเหตุผล เช่น ผู้บังคับบัญชาหยุดพักผ่อน, ผู้บังคับบัญชาติดภารกิจอื่น ๆ, เป็นผู้ตรวจการ, ฯลฯ",
+                    ),
+                ),
+              new List()
+                .Add(
+                  new ListItem()
+                    .Add(
+                      new Label("ApproverSelectionTips0", "p")
+                        .HorLeft()
+                        .Italic()
+                        .Text("ในกรณีทั่วไป ผู้อนุมัติจะเป็นผู้บังคับบัญชาของแผนกที่ท่านสังกัด"),
+                    ),
+                  new ListItem()
+                    .Add(
+                      new Label("ApproverSelectionTips1", "p")
+                        .HorLeft()
+                        .Italic()
+                        .Text(
+                          'ในกรณีที่ผู้ร้องขอเป็นผู้ตรวจการ ให้เลือกผู้อนุมัติเป็น "ผู้ตรวจการ" ระบุเหตุผลเป็น "เป็นผู้ตรวจการ" และอนุมัติให้ตนเองผ่าน Email ประจำตำแหน่ง',
+                        ),
+                    ),
+                  new ListItem()
+                    .Add(
+                      new Label("ApproverSelectionTips2", "p")
+                        .HorLeft()
+                        .Italic()
+                        .Text(
+                          "ในกรณีที่ผู้บังคับบัญชาไม่สามารถอนุมัติได้ ให้เลือกผู้อนุมัติเป็นผู้ตรวจการหรือหัวหน้าแผนกเคลื่อนย้ายผู้ป่วยตามสถานการณ์ พร้อมระบุเหตุผลประกอบการพิจารณา",
+                        ),
                     ),
                 ),
               new Node("Submit")
@@ -309,6 +382,15 @@ Dandelion(async (body) => {
                         createNotifyDialog("กรุณาระบุข้อมูลที่จำเป็นให้ครบถ้วน");
                         return;
                       }
+                      if (
+                        approver.value === "hod" &&
+                        !altApproverReasons.value.trim()
+                      ) {
+                        createNotifyDialog(
+                          "หากท่านเลือกผู้อนุมัติเป็นบุคคลอื่นที่ไม่ใช่ผู้บังคับบัญชาของท่าน โปรดระบุเหตุผลที่ต้องให้ผู้นั้นอนุมัติด้วย",
+                        );
+                        return;
+                      }
                       const d = createNotifyDialog(
                         "⏳ กำลังส่งข้อมูล โปรดรอสักครู่...",
                       );
@@ -327,6 +409,8 @@ Dandelion(async (body) => {
                         requestToTime: requestToTime.value,
                         requestCar: requestCar.value,
                         requestAmbulanceComment: requestAmbulanceComment.value,
+                        approver: approver.value,
+                        altApproverReasons: altApproverReasons.value,
                       };
                       // console.log(body);
                       // return;
@@ -415,6 +499,22 @@ Dandelion(async (body) => {
     "RequestAmbulanceComment/Text",
     TextArea,
   );
+  const approver = main.getNode(
+    "Approver/Text",
+    DropDownMenu,
+  );
+  const altApproverReasonsNode = main.getNode(
+    "AltApproverReasons",
+    TextArea,
+  );
+  const altApproverReasons = main.getNode(
+    "AltApproverReasons/Text",
+    TextArea,
+  );
+
+  if (approver.value !== "hod") {
+    altApproverReasonsNode.show();
+  }
 
   // Load car list
   let loaded = false;
