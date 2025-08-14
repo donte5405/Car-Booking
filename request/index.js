@@ -313,6 +313,10 @@ Dandelion(async (body) => {
                   new TextArea("Text")
                     .LockWidth(Percent(100))
                     .MinHeight(Px(200))
+                    .On("change", (node) => {
+                      window.localStorage.setItem("altApproverReasons", node.value);
+                    })
+                    .Value(window.localStorage.getItem("altApproverReasons") || "")
                     .PlaceholderText(
                       "ระบุเหตุผล เช่น ผู้บังคับบัญชาหยุดพักผ่อน, ผู้บังคับบัญชาติดภารกิจอื่น ๆ, เป็นผู้ตรวจการ, ฯลฯ",
                     ),
