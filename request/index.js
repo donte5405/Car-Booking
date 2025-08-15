@@ -387,7 +387,7 @@ Dandelion(async (body) => {
                         return;
                       }
                       if (
-                        approver.value === "hod" &&
+                        approver.value !== "hod" &&
                         !altApproverReasons.value.trim()
                       ) {
                         createNotifyDialog(
