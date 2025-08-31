@@ -39,7 +39,7 @@ export function buildBody(body) {
           node.Id("TopNavRight").Add(
             new Label().Text(
               "Copyright " + String(new Date().getUTCFullYear()) +
-                " Principal Healthcare - Mukdahan, Co., Ltd.",
+                " Principal Healthcare - Mukdahan, Ltd.",
             ),
           ) // Right
         )
@@ -60,6 +60,9 @@ export function buildBody(body) {
             new Button()
               .OnClick(() => window.location.href = "../request")
               .Text("📄 ออกคำร้องขอใหม่"),
+            new Button()
+              .OnClick(() => window.location.href = "../report")
+              .Text("📄 ขอรายงานจากระบบ"),
           ) // TODO: Add sidebar menus.
           // Sidebar
         )
