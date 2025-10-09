@@ -156,7 +156,7 @@ Dandelion(async (body) => {
                 .FlexContainer()
                 .Add(
                   new InputCheckBox("CheckBox"),
-                  new Label().Text("มีความเร่งด่วน"),
+                  new Label().Text("ขอใช้เร่งด่วน"),
                 ),
               new Node("IsRequestRush")
                 .FlexContainer()

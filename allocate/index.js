@@ -193,7 +193,7 @@ Dandelion(async (body) => {
                   .Class(Style(
                     new ForegroundColor("red"),
                   ))
-                  .Text("เร่งด่วน"),
+                  .Text("ขอเร่งด่วน"),
               ),
             new Node("#IsRequestRush")
               .Add(
