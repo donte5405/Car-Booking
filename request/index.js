@@ -155,14 +155,53 @@ Dandelion(async (body) => {
               new Node("IsRequestUrgent")
                 .FlexContainer()
                 .Add(
-                  new InputCheckBox("CheckBox"),
+                  new InputCheckBox("CheckBox")
+                    .On("change", (node) => {
+                      if (node.isChecked) {
+                        requestUrgentDescription.show();
+                      } else {
+                        requestUrgentDescription.hide();
+                      }
+                    }),
                   new Label().Text("ขอใช้เร่งด่วน"),
+                ),
+              new Node("RequestUrgentDescription")
+                .HorLeft()
+                .Hidden()
+                .Add(
+                  new Label()
+                    .Style("color", "red")
+                    .Text("การขอใช้รถเร่งด่วน คือ การขอใช้รถที่อาจต้องข้ามขั้นตอนการอนุมัติ โดยแจ้งหัวหน้าหรือผู้ตรวจการผ่านโทรศัพท์ และแจ้งหัวหน้าอนุมัติให้ผ่าน Email ภายหลัง เช่น ขอรถเวลา 10.00 น. ต้องออกเดินทาง 10.15 น. \"ไม่เกี่ยวข้องกับการขอให้วิ่งรถเร็วขึ้น\""),
+                  new Label()
+                    .Style("color", "red")
+                    .Text("หากท่านต้องการให้พนักงานขับรถ ขับรถอย่างเร่งด่วน ให้เลือกตัวเลือก \"วิ่งทำเวลา\" (ขอไม่ได้ทุกเคส)"),
                 ),
               new Node("IsRequestRush")
                 .FlexContainer()
                 .Add(
-                  new InputCheckBox("CheckBox"),
+                  new InputCheckBox("CheckBox")
+                    .On("change", (node) => {
+                      if (node.isChecked) {
+                        requestRushDescription.show();
+                      } else {
+                        requestRushDescription.hide();
+                      }
+                    }),
                   new Label().Text("วิ่งทำเวลา"),
+                ),
+              new Node("RequestRushDescription")
+                .HorLeft()
+                .Hidden()
+                .Add(
+                  new Label()
+                    .Style("color", "red")
+                    .Text("การขอวิ่งรถทำเวลา คือ การขอให้พนักงานขับรถทำความเร็วมากกว่าปกติ ซึ่งก่อให้เกิดความเสี่ยงต่าง ๆ ขึ้น เช่น อุบัติเหตุ การฝ่าฝืนกฎหมายจราจร"),
+                  new Label()
+                    .Style("color", "#D9544D")
+                    .Text("ตัวอย่าง: วันนี้วันที่ 1 มกราคม 2569 ต้องไปรับเซ็ตผ่าตัดวันที่ 20 มกราคม 2569 08.00 น. ที่โรงพยาบาลไกลถิ่น แต่ต้องกลับมาเวลา 13.00 น. (5 ชม.) เพราะต้องเข้าเคส 15.00 น."),
+                  new Label()
+                    .Style("color", "red")
+                    .Text("ผู้ตรวจการ จะต้องประเมินเหตุผลและความเสี่ยงของการขอวิ่งรถทำเวลานี้ก่อนอนุมัติ"),
                 ),
               new HorizontalLine(),
               new Node("RequesterParticipants")
@@ -476,9 +515,17 @@ Dandelion(async (body) => {
     "IsRequestUrgent/CheckBox",
     InputCheckBox,
   );
+  const requestUrgentDescription = main.getNode(
+    "RequestUrgentDescription",
+    Node
+  );
   const isRequestRush = main.getNode(
     "IsRequestRush/CheckBox",
     InputCheckBox,
+  );
+  const requestRushDescription = main.getNode(
+    "RequestRushDescription",
+    Node,
   );
   const requesterParticipants = main.getNode(
     "RequesterParticipants/Text",
