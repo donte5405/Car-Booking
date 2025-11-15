@@ -3,6 +3,7 @@ import {
   Button,
   Container,
   Dandelion,
+  DialogBody,
   DropDownMenu,
   DropDownOption,
   getNodeById,
@@ -23,7 +24,10 @@ import {
 import { UseDefaultTheme } from "../dandelion/default.css.js";
 import { createNotifyDialog } from "../module/dialog.js";
 import { request } from "../module/google.js";
+import { formatThaiDate, parseThaiDate } from "../module/thaidate.js";
 import { checkVersion } from "../module/ver.js";
+
+const eol = `\n`;
 
 UseDefaultTheme();
 
@@ -38,6 +42,13 @@ Dandelion(async (body) => {
   // const minutes = String(now.getMinutes()).padStart(2, "0");
   // const seconds = String(now.getSeconds()).padStart(2, '0');
   // const ms = String(now.getMilliseconds()).padStart(3, '0');
+
+  let selectedDepartment = "";
+  let selectedCarName = "";
+  let selectedFrom = "";
+  let selectedTo = "";
+  let setReasons = "";
+
   body
     .Title("ระบบขอใช้รถออนไลน์")
     .Add(
@@ -443,6 +454,11 @@ Dandelion(async (body) => {
                         );
                         return;
                       }
+                      selectedFrom = formatThaiDate(new Date(requestFromDate.value + "T" + requestFromTime.value + "+07:00"));
+                      selectedTo = formatThaiDate(new Date(requestToDate.value + "T" + requestToTime.value + "+07:00"));
+                      selectedCarName = carByIds[requestCar.value].name || "รถ";
+                      selectedDepartment = requesterDepartment.value;
+                      setReasons = requesterReasons.value;
                       const d = createNotifyDialog(
                         "⏳ กำลังส่งข้อมูล โปรดรอสักครู่...",
                       );
@@ -450,8 +466,8 @@ Dandelion(async (body) => {
                         method: "request",
                         requesterName: requesterName.value,
                         requesterEmail: requesterEmail.value,
-                        requesterDepartment: requesterDepartment.value,
-                        requestReasons: requesterReasons.value,
+                        requesterDepartment: selectedDepartment,
+                        requestReasons: setReasons,
                         isRequestUrgent: isRequestUrgent.isChecked,
                         isRequestRush: isRequestRush.isChecked,
                         requesterParticipants: requesterParticipants.value,
@@ -470,16 +486,92 @@ Dandelion(async (body) => {
                       if (d.parent) {
                         d.detach();
                       }
-                      createNotifyDialog(
-                        res.success
-                          ? "✅ ส่งคำขอเรียบร้อยแล้ว"
-                          : "❌ ล้มเหลว: " + res.error,
-                      );
+                      if (!res.success) {
+                        createNotifyDialog("❌ ล้มเหลว: " + res.error);
+                        return;
+                      }
+                      spawnLINEMessageDialog();
                     }),
                 ),
             ),
         ),
+        new DialogBody("#CancelRequest")
+          .Hidden()
+          .Dim()
+          .Add(
+            new Container()
+              .Panel()
+              .FlexContainer()
+              .FlexDirection("column")
+              .FlexWrap("wrap")
+              .Width(Px(1024))
+              .Height(Px(640))
+              .InternalMargin(Px(16))
+              .Add(
+                new Label("Lb", "h2")
+                  .Text("บันทึกคำขอเรียบร้อยแล้ว"),
+                new Label()
+                  .Text("คัดลอกข้อความเหล่านี้ แล้วนำส่ง Chat กลุ่มขอใช้รถ"),
+                new Label()
+                  .Style("color", "red")
+                  .Text("ระบบไม่นำส่งข้อความให้อัตโนมัติ!"),
+                new TextArea("#TextToCopy")
+                  .Stretch(),
+                new Node()
+                  .FlexContainer()
+                  .HorCenter()
+                  .Add(
+                    new Button()
+                      .MinWidth(Px(128))
+                      .OnClick(() => {
+                        spawnLINEMessageDialog("ครับ", true);
+                        createNotifyDialog("✅ คัดลอกข้อความเรียบร้อยแล้ว");
+                      })
+                      .Text("👨 คัดลอกข้อความ \"ครับ\""),
+                    new Button()
+                      .MinWidth(Px(128))
+                      .OnClick(() => {
+                        spawnLINEMessageDialog("ค่ะ", true);
+                        createNotifyDialog("✅ คัดลอกข้อความเรียบร้อยแล้ว");
+                      })
+                      .Text("👩 คัดลอกข้อความ \"ค่ะ\""),
+                  ),
+              ),
+          ),
     );
+
+  function spawnLINEMessageDialog(politeEnding = "", setClipboard = false) {
+    const todayText = (Math.abs((parseThaiDate(selectedFrom).getTime() - new Date().getTime()) / 86400000) <= 1.0) ?" (วันนี้)" : "";
+    const dayLength = Math.abs(parseThaiDate(selectedTo).getTime() - parseThaiDate(selectedFrom).getTime()) / 86400000;
+    const froms = selectedFrom.split(" ");
+    const tos = selectedTo.split(" ");
+    const p = politeEnding;
+    let time = "";
+    if (dayLength < 1) { // Same day
+      time += `📅วันที่ ${froms[0]} ${froms[1]} ${froms[2]}${todayText}` + eol
+        + `⏰เวลา ${froms[3]} น. ถึง ${tos[3]} น.`;
+    } else {
+      time += "📌ช่วงวันที่ " + selectedFrom + todayText + eol
+        + "📍ถึงวันที่ " + selectedTo + ` (${Math.floor(dayLength)} วัน)`
+        ;
+    }
+    const text = `❗ขออนุญาต${p}` + eol
+      + time + eol
+      + `👉${selectedDepartment.split(" - ")[1]}` + eol
+      + `🚗 ขอใช้${selectedCarName}` + eol
+      + eol
+      + setReasons + eol
+      + eol
+      + `✍🏼คีย์ลงในระบบเรียบร้อยแล้ว${p}` + eol
+      + `🙏ขอบคุณ${p}`
+      ;
+    if (setClipboard) {
+      navigator.clipboard.writeText(text);
+    }
+    
+    getNodeById("TextToCopy", InputText).value = text;
+    getNodeById("CancelRequest", Node).show();
+  }
 
   const showAmbulanceSectionConditionally = (id) => {
     requestAmbulanceCommentNode.hide();
@@ -598,8 +690,13 @@ Dandelion(async (body) => {
   availableCars = res.success.available;
   unavailableCars = res.success.unavailable;
   const cars = [...availableCars, ...unavailableCars];
+  /** @type {Record<string,{id:string,name:string,licenseId:string}>} */
+  const carByIds = {};
 
   for (const car of cars) {
+    if (!carByIds[car.id]) {
+      carByIds[car.id] = car;
+    }
     options.push(
       new DropDownOption(
         car.id,
