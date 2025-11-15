@@ -509,7 +509,7 @@ Dandelion(async (body) => {
               .InternalMargin(Px(16))
               .Add(
                 new Label("Lb", "h2")
-                  .Text("บันทึกคำขอเรียบร้อยแล้ว"),
+                  .Text("✅ บันทึกคำขอเรียบร้อยแล้ว"),
                 new Label()
                   .Text("คัดลอกข้อความเหล่านี้ แล้วนำส่ง Chat กลุ่มขอใช้รถ"),
                 new Label()
@@ -525,14 +525,12 @@ Dandelion(async (body) => {
                       .MinWidth(Px(128))
                       .OnClick(() => {
                         spawnLINEMessageDialog("ครับ", true);
-                        createNotifyDialog("✅ คัดลอกข้อความเรียบร้อยแล้ว");
                       })
                       .Text("👨 คัดลอกข้อความ \"ครับ\""),
                     new Button()
                       .MinWidth(Px(128))
                       .OnClick(() => {
                         spawnLINEMessageDialog("ค่ะ", true);
-                        createNotifyDialog("✅ คัดลอกข้อความเรียบร้อยแล้ว");
                       })
                       .Text("👩 คัดลอกข้อความ \"ค่ะ\""),
                   ),
@@ -566,6 +564,7 @@ Dandelion(async (body) => {
       + `🙏ขอบคุณ${p}`
       ;
     if (setClipboard) {
+      createNotifyDialog("✅ คัดลอกข้อความเรียบร้อยแล้ว" + politeEnding);
       navigator.clipboard.writeText(text);
     }
     
