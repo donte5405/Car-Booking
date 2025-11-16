@@ -553,15 +553,15 @@ Dandelion(async (body) => {
         + "📍ถึงวันที่ " + selectedTo + ` (${Math.floor(dayLength)} วัน)`
         ;
     }
-    const text = `❗ขออนุญาต${p}` + eol
+    const text = `ขออนุญาต${p}` + eol
       + time + eol
-      + `👉${selectedDepartment.split(" - ")[1]}` + eol
-      + `🚗 ขอใช้${selectedCarName}` + eol
+      + `${selectedDepartment.split(" - ")[1]}` + eol
+      + `ขอใช้${selectedCarName}` + eol
       + eol
       + setReasons + eol
       + eol
-      + `✍🏼คีย์ลงในระบบเรียบร้อยแล้ว${p}` + eol
-      + `🙏ขอบคุณ${p}`
+      + `คีย์ลงในระบบเรียบร้อยแล้ว${p}` + eol
+      + `ขอบคุณ${p}`
       ;
     if (setClipboard) {
       createNotifyDialog("✅ คัดลอกข้อความเรียบร้อยแล้ว" + politeEnding);
