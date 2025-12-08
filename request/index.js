@@ -50,7 +50,7 @@ Dandelion(async (body) => {
   let setReasons = "";
 
   body
-    .Title("ระบบขอใช้รถออนไลน์")
+    .Title("ระบบขอใช้รถยนต์ส่วนกลาง")
     .Add(
       new Node("App")
         .FlexContainer()
@@ -64,7 +64,7 @@ Dandelion(async (body) => {
             .Panel()
             .Add(
               new Label("LbTitle", "h1")
-                .Text("ระบบขอใช้รถออนไลน์"),
+                .Text("ระบบขอใช้รถยนต์ส่วนกลาง"),
               new Button()
                 .Text("ดูคำร้องขอที่มีอยู่ทั้งหมด")
                 .OnClick(() => {
@@ -495,17 +495,18 @@ Dandelion(async (body) => {
                 ),
             ),
         ),
-        new DialogBody("#CancelRequest")
+        new DialogBody("#LineMessageWindow")
           .Hidden()
           .Dim()
           .Add(
             new Container()
+              .OnBigScreen((node) => node.Height(Percent(95)))
+              .OnSmallScreen((node) => node.Height(Px(720)))
               .Panel()
               .FlexContainer()
               .FlexDirection("column")
               .FlexWrap("wrap")
               .Width(Px(1024))
-              .Height(Px(640))
               .InternalMargin(Px(16))
               .Add(
                 new Label("Lb", "h2")
@@ -534,12 +535,29 @@ Dandelion(async (body) => {
                       })
                       .Text("👩 คัดลอกข้อความ \"ค่ะ\""),
                   ),
+                  new Node()
+                  .FlexContainer()
+                  .HorCenter()
+                  .Add(
+                    new Button()
+                      .MinWidth(Px(128))
+                      .OnClick(() => {
+                        window.location.href = window.location.href;
+                      })
+                      .Text("➕ ส่งคำขอรายการถัดไป (ถ้ามี)"),
+                  ),
               ),
           ),
     );
 
   function spawnLINEMessageDialog(politeEnding = "", setClipboard = false) {
-    const todayText = (Math.abs((parseThaiDate(selectedFrom).getTime() - new Date().getTime()) / 86400000) <= 1.0) ?" (วันนี้)" : "";
+    const selectedFromDate = parseThaiDate(selectedFrom);
+    const currentDate = new Date();
+    const todayText = (
+      (selectedFromDate.getDate() === currentDate.getDate()) &&
+      (selectedFromDate.getMonth() === currentDate.getMonth()) &&
+      (selectedFromDate.getFullYear() === currentDate.getFullYear())
+    ) ?" (วันนี้)" : "";
     const dayLength = Math.abs(parseThaiDate(selectedTo).getTime() - parseThaiDate(selectedFrom).getTime()) / 86400000;
     const froms = selectedFrom.split(" ");
     const tos = selectedTo.split(" ");
@@ -557,6 +575,16 @@ Dandelion(async (body) => {
       + time + eol
       + `${selectedDepartment.split(" - ")[1]}` + eol
       + `ขอใช้${selectedCarName}` + eol
+      + (
+          isRequestUrgent.isChecked ?
+            "❗ ขอใช้รถก่อนอนุมัติ ด่วน" + p + eol
+            : ""
+        )
+      + (
+          isRequestRush.isChecked ?
+            "❗ ขอวิ่งรถแบบทำเวลา" + p + eol
+            : ""
+        )
       + eol
       + setReasons + eol
       + eol
@@ -569,7 +597,7 @@ Dandelion(async (body) => {
     }
     
     getNodeById("TextToCopy", InputText).value = text;
-    getNodeById("CancelRequest", Node).show();
+    getNodeById("LineMessageWindow", Node).show();
   }
 
   const showAmbulanceSectionConditionally = (id) => {
