@@ -174,7 +174,7 @@ Dandelion(async (body) => {
                         requestUrgentDescription.hide();
                       }
                     }),
-                  new Label().Text("ขอใช้เร่งด่วน"),
+                  new Label().Text("ขอใช้รถก่อนอนุมัติ"),
                 ),
               new Node("RequestUrgentDescription")
                 .HorLeft()
