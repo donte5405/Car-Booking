@@ -39,7 +39,7 @@ export function buildBody(body) {
           node.Id("TopNavRight").Add(
             new Label().Text(
               "Copyright " + String(new Date().getUTCFullYear()) +
-                " Principal Healthcare - Mukdahan, Ltd.",
+                " Company Name",
             ),
           ) // Right
         )
