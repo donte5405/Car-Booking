@@ -1,4 +1,5 @@
 //@ts-check
+import { companyName, logoUrl } from "./config.js";
 import {
   $LeftSidebarBody,
   $TopNavigationBar,
@@ -30,7 +31,7 @@ export function buildBody(body) {
             new ImageFrame()
               .MaxHeight(Px(32))
               .Source(
-                "",
+                logoUrl,
               ),
             new Label("#Title").Text("ระบบจัดการการขอใช้รถยนต์ส่วนกลาง"),
           ) // Left
@@ -38,8 +39,7 @@ export function buildBody(body) {
         .Right((node) =>
           node.Id("TopNavRight").Add(
             new Label().Text(
-              "Copyright " + String(new Date().getUTCFullYear()) +
-                " Company Name",
+              "Copyright " + String(new Date().getUTCFullYear()) + " " + companyName,
             ),
           ) // Right
         )
