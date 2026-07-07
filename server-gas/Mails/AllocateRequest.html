@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คำขอใช้รถยนต์ส่วนกลาง</title>
+    <style>
+        body {
+            font-family: 'Sarabun', 'TH SarabunPSK', Arial, sans-serif;
+            line-height: 1.5;
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #0066cc;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 25px;
+        }
+        .info-box {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .checkbox-container {
+            margin: 20px 0;
+        }
+        .large-checkbox {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        .checkbox-label {
+            font-size: 18px;
+            vertical-align: middle;
+        }
+        .date-info {
+            background-color: #ffffcc;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+            text-decoration: none;
+        }
+        .btn-green {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-red {
+            background-color: #dc3545;
+            color: white;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #0066cc;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>คำขอใช้รถยนต์ส่วนกลาง</h1>
+    
+    <div class="info-box">
+        <p>เรียน<span class="highlight"> <?!= allocatorName ?> </span></p>
+
+        <p>มีคำขอใช้รถยนต์ส่วนกลางใหม่จาก <span class="highlight"> <?!= requesterName ?> </span></p>
+        
+        <p>เหตุผลที่ขอใช้รถ: <span class="highlight"> <?!= requestReasons ?> </span></p>
+        
+        <div class="checkbox-container">
+            <?!= isRequestUrgent ? `✅` : `❌` ?>
+            <label for="urgent" class="checkbox-label">มีความเร่งด่วน</label>
+        </div>
+        
+        <div class="checkbox-container">
+            <?!= isRequestRush ? `✅` : `❌` ?>
+            <label for="ontime" class="checkbox-label">วิ่งทำเวลา</label>
+        </div>
+        
+        <p>ผู้ที่ร่วมโดยสารไปด้วย: <span class="highlight"> <?!= requestParticipantNames ?> </span></p>
+        
+        <div class="date-info">
+            <p>ขอใช้ตั้งแต่วันที่ <span class="highlight"> <?!= requestFrom ?> </span> ถึงวันที่ <span class="highlight"> <?!= requestTo ?> </span></p>
+        </div>
+    </div>
+    
+    <? if (allocateButton) { ?>
+      <div class="button-container">
+          <a href="<?!= allocateUrl ?>" class="btn btn-green">จัดสรรยานพาหนะ</a>
+      </div>
+    <? } ?>
+    
+    <footer>
+        &copy; <?!= currentYearString ?> <?!= companyName?>
+    </footer>
+</body>
+</html>

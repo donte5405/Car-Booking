@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>อีเมลสำหรับเข้าสู่ระบบครั้งถัดไป</title>
+    <style>
+        body {
+            font-family: 'Sarabun', 'TH SarabunPSK', Arial, sans-serif;
+            line-height: 1.5;
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #0066cc;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 25px;
+        }
+        .info-box {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .checkbox-container {
+            margin: 20px 0;
+        }
+        .large-checkbox {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        .checkbox-label {
+            font-size: 18px;
+            vertical-align: middle;
+        }
+        .date-info {
+            background-color: #ffffcc;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+            text-decoration: none;
+        }
+        .btn-green {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-red {
+            background-color: #dc3545;
+            color: white;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #0066cc;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>อีเมลสำหรับเข้าสู่ระบบครั้งถัดไป</h1>
+    
+    <div class="info-box">
+        <p>เรียน<span class="highlight"> <?!= porterName ?> </span></p>
+
+        <p>เนื่องจากมีการล็อกอินเข้าสู่ระบบใหม่ ทำให้รหัสเข้าสู่ระบบเดิมหมดอายุทันทีเพื่อรักษาความปลอดภัย</p>
+
+        <p>ท่านสามารถเข้าสู่ระบบใหม่อีกครั้งได้ด้วยการคลิกปุ่ม <span>เข้าสู่ระบบ</span> ด้านล่าง</p>
+    </div>
+    
+    <div class="button-container">
+        <a href="<?!= authUrl ?>" class="btn btn-green">เข้าสู่ระบบ</a>
+    </div>
+    
+    <footer>
+        &copy; <?!= currentYearString ?> <?!= companyName?>
+    </footer>
+</body>
+</html>

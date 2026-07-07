@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Approval Request</title>
+  <style type="text/css">
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333333;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #dddddd;
+    }
+
+    .header {
+      padding-bottom: 20px;
+      border-bottom: 1px solid #eeeeee;
+    }
+
+    .content {
+      padding: 20px 0;
+    }
+
+    .button-container {
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      margin: 0 10px;
+      font-size: 16px;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .button-approve {
+      background-color: #4CAF50;
+      color: white !important;
+      border: 1px solid #45a049;
+    }
+
+    .button-reject {
+      background-color: #f44336;
+      color: white !important;
+      border: 1px solid #da190b;
+    }
+
+    .button-viewallocate {
+      background-color: #2196F3;
+      color: white !important;
+      border: 1px solid #0b7dda;
+    }
+
+    .footer {
+      padding-top: 20px;
+      border-top: 1px solid #eeeeee;
+      font-size: 12px;
+      color: #777777;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>คำขออนุมัติใช้รถยนต์ส่วนกลาง</h2>
+    </div>
+
+    <div class="content">
+      <p> เรียน
+        <?= hodName ?>
+      </p>
+      <p> เนื่องด้วยข้าพเจ้า
+        <?= requesterName ?> ที่อยู่อีเมล
+        <?= requesterEmail ?> มีความประสงค์ที่จะใช้รถยนต์ส่วนกลาง
+        <?!= isRequestUrgent ? "<i>อย่างเร่งด่วน</i>" : "" ?>
+        <?!= isRequestRush ? ((isRequestUrgent ? "และ" : "แบบ") + "<i>ขอวิ่งทำเวลา</i>") : "" ?> เพื่อ
+        <?= requestReasons ?>
+        โดยใช้น้ำมันเชื้อเพลิงจากงบประมาณส่วนกลาง
+        <?= requestParticipantNames ? ("และมี" + requestParticipantNames) : "" ?> โดยสารไปด้วย
+      </p>
+      <? if (altApproverReasons) { ?>
+        <p>เหตุผลที่ไม่สามารถให้ผู้บังคับบัญชาอนุมัติได้: <?= altApproverReasons ?></p>
+      <? } ?>
+      <p>จึงเรียนมาเพื่อโปรดอนุมัติ<br>
+        <?= requesterName ?><br>
+        <?= requesterDepartment ?>
+      </p>
+    </div>
+
+    <div class="content">
+      เลือกอนุมัติ / ไม่อนุมัติที่ปุ่มด้านล่าง:
+    </div>
+
+    <div class="button-container">
+      <a href=<?!= `"${approveUrl}"` ?> class="button button-approve">อนุมัติ</a>
+      <a href=<?!= `"${rejectUrl}"` ?> class="button button-reject">ไม่อนุมัติ</a>
+    </div>
+
+    <!--div class="button-container"-->
+      <!--a href=<?!= `"${viewAllocateUrl}"` ?> class="button button-viewallocate">ดูการจัดสรรรถในปัจจุบัน</a-->
+    <!--/div-->
+
+    <div class="footer">
+      <p>อีเมลนี้ถูกส่งโดยอัตโนมัติ กรุณาอย่าตอบกลับ</p>
+      <p>&copy;
+        <?!= currentYearString ?> <?!= companyName?>
+      </p>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= allocatorName ?> ยกเลิกคำขอจาก <?= requesterName ?></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: red; /* Red color for the title */
+        }
+        .content {
+            margin-bottom: 30px;
+        }
+        .signature {
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1><?= allocatorName ?> ยกเลิกคำขอจาก <?= requesterName ?></h1>
+    </div>
+    
+    <div class="content">
+        <p>เรียน <?= recipientName ?></p>
+        <p>ระบบขอใช้รถยนต์ออนไลน์ ขอแจ้งว่า <?= allocatorName ?> ได้มีการยกเลิกคำขอจาก <?= requesterName ?> ผ่านระบบของ Porter</p>
+        <p>เหตุผลที่ยกเลิก: <?= allocatorReasons ?></p> 
+        <p>–––</p>
+        <p>ชื่อผู้ที่ร้องขอ: <?= requesterName ?></p>
+        <p>ผู้ที่ร่วมโดยสารไปด้วย: <?= requestParticipantNames ?></p>
+        <p>เหตุผลที่ร้องขอ: <?= requestReasons ?></p>
+        <p>ช่วงเวลา: <?=requestFrom ?> ถึง <?= requestTo ?></p>
+    </div>
+    
+    <div class="signature">
+        <p>ขอแสดงความนับถือ</p>
+        <p>ระบบขอใช้รถยนต์ออนไลน์</p>
+    </div>
+    
+    <div class="footer">
+        <p>&copy; <?!= currentYearString ?> <?!= companyName?></p>
+    </div>
+</body>
+</html>
